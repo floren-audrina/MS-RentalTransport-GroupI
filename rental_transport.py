@@ -6,10 +6,6 @@ import dependencies
 #      @rpc
 #     def get_car(self):
 
-
-#     @rpc
-#     def get_search(self, num):
-
     
 #     @rpc
 #     def add_car(self, num, r_type):
