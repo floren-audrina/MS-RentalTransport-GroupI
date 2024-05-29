@@ -35,6 +35,31 @@ class DatabaseWrapper:
     def __del__(self):
         self.connection.close()
 
+    def check_provID(self, id):
+        cursor = self.connection.cursor(dictionary=True)
+        sql = "SELECT provider_id FROM provider WHERE provider_id = {}".format(id)
+        cursor.execute(sql)
+        result = cursor.fetchone()  # Use fetchall to get all rows
+        cursor.close()
+
+        if result:
+            return result
+        else:
+            return False
+
+    def add_car(self,car_brand,car_name,car_type,car_trans,car_year,car_seats,car_lugg,car_price,provider_id):
+            cursor = self.connection.cursor(dictionary=True)
+            try:
+                sql = "INSERT INTO car (car_brand,car_name,car_type,car_trans,car_year,car_seats,car_lugg,car_price,provider_id) VALUES ({}, {}, {}, {}, {}, {}, {}, {}, {})".format(car_brand,car_name,car_type,car_trans,car_year,car_seats,car_lugg,car_price,provider_id)
+                cursor.execute(sql)
+                self.connection.commit()
+                cursor.close()
+                return True
+            except Exception as e:
+                print("An error occurred:", e)
+                self.connection.rollback()
+                cursor.close()
+                return False
 
 class Database(DependencyProvider):
 
