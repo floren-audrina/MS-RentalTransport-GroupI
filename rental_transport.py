@@ -27,10 +27,18 @@ class RentalService:
             self.database.add_car(car_brand,car_name,car_type,car_trans,car_year,car_seats,car_lugg,car_price,provider_id)
         else:
             response.append({"status": "error", "message": f"Provider with ID {provider_id} does not exist."})
-        
         return response
-#     @rpc
-#     def edit_car(self, num):
-        
+    
+    # Provider
+    @rpc
+    def get_provider(self):
+        return self.database.get_provider()
+    
+
+    # Driver
+    @rpc
+    def get_driver(self):
+        return self.database.get_driver()
+    
 #     @rpc
 #     def del_car(self, num):

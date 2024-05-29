@@ -11,6 +11,7 @@ class DatabaseWrapper:
     def __init__(self, connection):
         self.connection = connection
 
+    # Car
     def get_car(self):
         cursor = self.connection.cursor(dictionary=True)
         result = []
@@ -31,10 +32,7 @@ class DatabaseWrapper:
             })
         cursor.close()
         return result
-
-    def __del__(self):
-        self.connection.close()
-
+    
     def check_provID(self, id):
         cursor = self.connection.cursor(dictionary=True)
         sql = "SELECT provider_id FROM provider WHERE provider_id = {}".format(id)
@@ -60,6 +58,49 @@ class DatabaseWrapper:
                 self.connection.rollback()
                 cursor.close()
                 return False
+            
+
+    # Provider
+    def get_provider(self):
+        cursor = self.connection.cursor(dictionary=True)
+        result = []
+        sql = "SELECT * FROM provider"
+        cursor.execute(sql)
+        for row in cursor.fetchall():
+            result.append({
+                'provider_id': row['provider_id'],
+                'name': row['provider_name'],
+                'location': row['provider_loc'],
+                'phone': row['provider_phone']
+                # Add other fields as needed
+            })
+        cursor.close()
+        return result
+    
+    
+
+    # Driver
+    def get_driver(self):
+        cursor = self.connection.cursor(dictionary=True)
+        result = []
+        sql = "SELECT * FROM driver"
+        cursor.execute(sql)
+        for row in cursor.fetchall():
+            result.append({
+                'driver_id': row['driver_id'],
+                'name': row['driver_name'],
+                'gender': row['driver_gender'],
+                'age': row['driver_age'],
+                'phone': row['driver_phone']
+            })
+        cursor.close()
+        return result
+    
+
+
+
+    def __del__(self):
+        self.connection.close()
 
 class Database(DependencyProvider):
 

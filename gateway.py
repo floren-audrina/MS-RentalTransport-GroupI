@@ -8,6 +8,7 @@ class GatewayService:
     name = 'gateway'
     rental_rpc = RpcProxy('rental_service')
 
+    # Car
     @http('GET', '/car')
     def get_car(self, request):
         result = self.rental_rpc.get_car()
@@ -59,6 +60,14 @@ class GatewayService:
         responses = self.rental_rpc.add_car(car_list)
         return json.dumps(responses), 200
 
+    # Provider
+    @http('GET', '/provider')
+    def get_provider(self, request):
+        result = self.rental_rpc.get_provider()
+        if result:
+            return 200, json.dumps(result)
+        else:
+            return 404, json.dumps({"error": "Provider not found"})
 
     @http('POST', '/provider')
     def add_porvider(self, request):
@@ -87,6 +96,16 @@ class GatewayService:
         
         responses = self.rental_rpc.add_provider(prov_list)
         return json.dumps(responses), 200
+    
+
+    # Driver
+    @http('GET', '/driver')
+    def get_driver(self, request):
+        result = self.rental_rpc.get_driver()
+        if result:
+            return 200, json.dumps(result)
+        else:
+            return 404, json.dumps({"error": "Driver not found"})
     
     @http('POST', '/driver')
     def add_driver(self, request):
