@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Dashboard</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -15,13 +15,19 @@
             position: fixed;
             top: 0;
             left: 0;
-            background-color: #111;
+            background-color: #1f1f2e;
             padding-top: 20px;
+        }
+
+        .sidebar-title {
+            color: white;
+            text-align: center;
         }
 
         .sidebar h2 {
             color: white;
-            text-align: center;
+            padding: 8px;
+            padding-top: 20px;
         }
 
         .sidebar ul {
@@ -62,11 +68,17 @@
 </head>
 <body>
     <div class="sidebar">
-        <h2>Admin Dashboard</h2>
+        <h1 class="sidebar-title">Dashboard</h1>
         <ul>
+            <h2>Car</h2>
             <li><a href="?action=get_car">Get Car</a></li>
+            <li><a href="?action=get_car">Add Car</a></li>
+            <h2>Driver</h2>
             <li><a href="?action=get_driver">Get Driver</a></li>
+            <li><a href="?action=get_car">Add Driver</a></li>
+            <h2>Provider</h2>
             <li><a href="?action=get_provider">Get Provider</a></li>
+            <li><a href="?action=get_car">Add Provider</a></li>
         </ul>
     </div>
 
@@ -80,11 +92,20 @@
                     case 'get_car':
                         $url = 'http://localhost:8000/car';
                         break;
+                    case 'add_car':
+                        $url = '';
+                        break;
                     case 'get_driver':
                         $url = 'http://localhost:8000/driver';
                         break;
+                    case 'add_driver':
+                        $url = '';
+                        break;
                     case 'get_provider':
                         $url = 'http://localhost:8000/provider';
+                        break;
+                    case 'add_provider':
+                        $url = '';
                         break;
                     default:
                         $url = '';
