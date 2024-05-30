@@ -2,7 +2,12 @@ from nameko.extensions import DependencyProvider
 
 import mysql.connector
 from mysql.connector import Error
-from mysql.connector import pooling
+
+MODEL_DATA = {
+    'car': ['car_id', 'car_brand', 'car_name', 'car_type', 'car_trans', 'car_year', 'car_seats', 'car_lugg', 'car_price', 'provider_id'],
+    'driver': ['driver_id', 'driver_name', 'driver_gender', 'driver_age', 'driver_phone'],
+    'provider': ['provider_id', 'provider_name', 'provider_loc', 'provider_phone']
+}
 
 class DatabaseWrapper:
 
@@ -11,52 +16,35 @@ class DatabaseWrapper:
     def __init__(self, connection):
         self.connection = connection
 
-    # Car
-    def get_car(self):
+    # Function untuk get all
+    def fetch_all(self, table):
         cursor = self.connection.cursor(dictionary=True)
         result = []
-        sql = "SELECT * FROM car"
+        sql = f"SELECT * FROM {table}"
         cursor.execute(sql)
         for row in cursor.fetchall():
-            result.append({
-                'car_id': row['car_id'],
-                'car_brand': row['car_brand'],
-                'car_name': row['car_name'],
-                'car_type': row['car_type'],
-                'car_trans': row['car_trans'],
-                'car_year': row['car_year'],
-                'car_seats': row['car_seats'],
-                'car_lugg': row['car_lugg'],
-                'car_price': row['car_price'],
-                'provider_id': row['provider_id']
-            })
+            result.append({field: row[field] for field in MODEL_DATA[table]})
         cursor.close()
         return result
     
-    def check_provID(self, id):
+    # Function untuk get by id
+    def fetch_by_id(self, table, id_field, id_value):
         cursor = self.connection.cursor(dictionary=True)
-        sql = "SELECT provider_id FROM provider WHERE provider_id = {}".format(id)
-        cursor.execute(sql)
-        result = cursor.fetchone()  # Use fetchall to get all rows
+        sql = f"SELECT * FROM {table} WHERE {id_field} = %s"
+        cursor.execute(sql, (id_value,))
+        row = cursor.fetchone()
         cursor.close()
+        if row:
+            return {field: row[field] for field in MODEL_DATA[table]}
+        return None
 
-        if result:
-            return result
-        else:
-            return False
-        
-    def check_driverID(self, id):
-        cursor = self.connection.cursor(dictionary=True)
-        sql = "SELECT driver_id FROM driver WHERE driver_id = {}".format(id)
-        cursor.execute(sql)
-        result = cursor.fetchone()  # Use fetchall to get all rows
-        cursor.close()
-
-        if result:
-            return result
-        else:
-            return False
-        
+    # Car
+    def get_car(self):
+        return self.fetch_all('car')
+    
+    def get_car_by_id(self, car_id):
+        return self.fetch_by_id('car', 'car_id', car_id)
+    
     def check_carID(self, id):
         cursor = self.connection.cursor(dictionary=True)
         sql = "SELECT car_id FROM car WHERE car_id = {}".format(id)
@@ -82,7 +70,27 @@ class DatabaseWrapper:
             self.connection.rollback()
             cursor.close()
             return False
+        
 
+
+    # Provider
+    def get_provider(self):
+        return self.fetch_all('provider')
+    
+    def get_provider_by_id(self, provider_id):
+        return self.fetch_by_id('provider', 'provider_id', provider_id)
+    
+    def check_provID(self, id):
+        cursor = self.connection.cursor(dictionary=True)
+        sql = "SELECT provider_id FROM provider WHERE provider_id = {}".format(id)
+        cursor.execute(sql)
+        result = cursor.fetchone()  # Use fetchall to get all rows
+        cursor.close()
+
+        if result:
+            return result
+        else:
+            return False
             
     def add_provider(self, provider_name, provider_loc, provider_phone):
         cursor = self.connection.cursor(dictionary=True)
@@ -97,7 +105,26 @@ class DatabaseWrapper:
             self.connection.rollback()
             cursor.close()
             return False
+    
 
+    # Driver
+    def get_driver(self):
+        return self.fetch_all('driver')
+
+    def get_driver_by_id(self, driver_id):
+        return self.fetch_by_id('driver', 'driver_id', driver_id)
+    
+    def check_driverID(self, id):
+        cursor = self.connection.cursor(dictionary=True)
+        sql = "SELECT driver_id FROM driver WHERE driver_id = {}".format(id)
+        cursor.execute(sql)
+        result = cursor.fetchone()  # Use fetchall to get all rows
+        cursor.close()
+
+        if result:
+            return result
+        else:
+            return False
             
     def add_driver(self, driver_name, driver_gender, driver_age, driver_phone):
         cursor = self.connection.cursor(dictionary=True)
@@ -112,46 +139,7 @@ class DatabaseWrapper:
             self.connection.rollback()
             cursor.close()
             return False
-
-
-    # Provider
-    def get_provider(self):
-        cursor = self.connection.cursor(dictionary=True)
-        result = []
-        sql = "SELECT * FROM provider"
-        cursor.execute(sql)
-        for row in cursor.fetchall():
-            result.append({
-                'provider_id': row['provider_id'],
-                'name': row['provider_name'],
-                'location': row['provider_loc'],
-                'phone': row['provider_phone']
-                # Add other fields as needed
-            })
-        cursor.close()
-        return result
     
-    
-
-    # Driver
-    def get_driver(self):
-        cursor = self.connection.cursor(dictionary=True)
-        result = []
-        sql = "SELECT * FROM driver"
-        cursor.execute(sql)
-        for row in cursor.fetchall():
-            result.append({
-                'driver_id': row['driver_id'],
-                'name': row['driver_name'],
-                'gender': row['driver_gender'],
-                'age': row['driver_age'],
-                'phone': row['driver_phone']
-            })
-        cursor.close()
-        return result
-    
-
-
 
     def __del__(self):
         self.connection.close()

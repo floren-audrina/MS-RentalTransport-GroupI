@@ -16,6 +16,14 @@ class GatewayService:
             return 200, json.dumps(result)
         else:
             return 404, json.dumps({"error": "Car not found"})
+        
+    @http('GET', '/car/<int:car_id>')
+    def get_car_by_id(self, request, car_id):
+        result = self.rental_rpc.get_car_by_id(car_id)
+        if result:
+            return 200, json.dumps(result)
+        else:
+            return 404, json.dumps({"error": "Car not found"})
 
     @http('POST', '/car_add')
     def add_car(self, request):
@@ -60,10 +68,20 @@ class GatewayService:
         responses = self.rental_rpc.add_car(car_list)
         return 200, json.dumps(responses)
 
+
+
     # Provider
     @http('GET', '/provider')
     def get_provider(self, request):
         result = self.rental_rpc.get_provider()
+        if result:
+            return 200, json.dumps(result)
+        else:
+            return 404, json.dumps({"error": "Provider not found"})
+        
+    @http('GET', '/provider/<int:provider_id>')
+    def get_provider_by_id(self, request, provider_id):
+        result = self.rental_rpc.get_provider_by_id(provider_id)
         if result:
             return 200, json.dumps(result)
         else:
@@ -98,6 +116,14 @@ class GatewayService:
     @http('GET', '/driver')
     def get_driver(self, request):
         result = self.rental_rpc.get_driver()
+        if result:
+            return 200, json.dumps(result)
+        else:
+            return 404, json.dumps({"error": "Driver not found"})
+        
+    @http('GET', '/driver/<int:driver_id>')
+    def get_driver_by_id(self, request, driver_id):
+        result = self.rental_rpc.get_driver_by_id(driver_id)
         if result:
             return 200, json.dumps(result)
         else:

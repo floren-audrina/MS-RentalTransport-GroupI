@@ -72,63 +72,98 @@
         <ul>
             <h2>Car</h2>
             <li><a href="?action=get_car">Get Car</a></li>
+            <li><a href="?action=get_car">Get Car (By ID)</a></li>
             <li><a href="?action=get_car">Add Car</a></li>
+
             <h2>Driver</h2>
             <li><a href="?action=get_driver">Get Driver</a></li>
+            <li><a href="?action=get_driver">Get Driver (By ID)</a></li>
             <li><a href="?action=get_car">Add Driver</a></li>
+
             <h2>Provider</h2>
             <li><a href="?action=get_provider">Get Provider</a></li>
+            <li><a href="?action=get_provider">Get Provider (By ID)</a></li>
             <li><a href="?action=get_car">Add Provider</a></li>
         </ul>
     </div>
 
     <div class="content">
-        <?php
-            if (isset($_GET['action'])) {
-                $action = $_GET['action'];
+    <?php
+        function fetch_data($url) {
+            $response = file_get_contents($url);
+            return json_decode($response, true);
+        }
 
-                // Fetch data based on action
-                switch ($action) {
-                    case 'get_car':
-                        $url = 'http://localhost:8000/car';
-                        break;
-                    case 'add_car':
-                        $url = '';
-                        break;
-                    case 'get_driver':
-                        $url = 'http://localhost:8000/driver';
-                        break;
-                    case 'add_driver':
-                        $url = '';
-                        break;
-                    case 'get_provider':
-                        $url = 'http://localhost:8000/provider';
-                        break;
-                    case 'add_provider':
-                        $url = '';
-                        break;
-                    default:
-                        $url = '';
-                        break;
-                }
+        function display_json($data) {
+            echo "<div class='response'><pre>" . json_encode($data, JSON_PRETTY_PRINT) . "</pre></div>";
+        }
 
-                if ($url) {
-                    // Fetch data from API or service
-                    $response = file_get_contents($url);
-                    $data = json_decode($response);
+        if (isset($_GET['action'])) {
+            $action = $_GET['action'];
+            $id = isset($_GET['id']) ? $_GET['id'] : null;
+            $base_url = 'http://localhost:8000';
 
-                    // Convert data to formatted JSON string
-                    $jsonData = json_encode($data, JSON_PRETTY_PRINT);
-
-                    // Output JSON string
-                    echo "<pre>$jsonData</pre>";
-                } else {
+            switch ($action) {
+                case 'get_car':
+                    $url = "$base_url/car";
+                    $data = fetch_data($url);
+                    display_json($data);
+                    break;
+                case 'get_car_by_id':
+                    if ($id) {
+                        $url = "$base_url/car?id=$id";
+                        $data = fetch_data($url);
+                        display_json($data);
+                    } else {
+                        echo "<script>alert('Please provide a car ID.');</script>";
+                    }
+                    break;
+                case 'add_car':
+                    echo "<p>Add Car functionality to be implemented.</p>";
+                    break;
+                case 'get_driver':
+                    $url = "$base_url/driver";
+                    $data = fetch_data($url);
+                    display_json($data);
+                    break;
+                case 'get_driver_by_id':
+                    if ($id) {
+                        $url = "$base_url/driver?id=$id";
+                        $data = fetch_data($url);
+                        display_json($data);
+                    } else {
+                        echo "<script>alert('Please provide a driver ID.');</script>";
+                    }
+                    break;
+                case 'add_driver':
+                    echo "<p>Add Driver functionality to be implemented.</p>";
+                    break;
+                case 'get_provider':
+                    $url = "$base_url/provider";
+                    $data = fetch_data($url);
+                    display_json($data);
+                    break;
+                case 'get_provider_by_id':
+                    if ($id) {
+                        $url = "$base_url/provider?id=$id";
+                        $data = fetch_data($url);
+                        display_json($data);
+                    } else {
+                        echo "<script>alert('Please provide a provider ID.');</script>";
+                    }
+                    break;
+                case 'add_provider':
+                    echo "<p>Add Provider functionality to be implemented.</p>";
+                    break;
+                default:
                     echo "<p>Invalid action.</p>";
-                }
-            } else {
-                echo "<p>Select an action from the menu.</p>";
+                    break;
             }
-        ?>
+        } else {
+            echo "<p>Select an action from the menu.</p>";
+        }
+    ?>
+
     </div>
 </body>
 </html>
