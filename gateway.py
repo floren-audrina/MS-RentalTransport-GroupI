@@ -17,16 +17,16 @@ class GatewayService:
         else:
             return 404, json.dumps({"error": "Car not found"})
 
-    @http('POST', '/car')
+    @http('POST', '/car_add')
     def add_car(self, request):
         req = request.get_data(as_text=True)
         try:
             car_list = json.loads(req)
         except json.JSONDecodeError:
-            return json.dumps({"error": "Invalid JSON format"}), 400
+            return 400, json.dumps({"error": "Invalid JSON format"})
 
-        if not isinstance(car_list, list):
-            return json.dumps({"error": "Expected a list of car details"}), 400
+        if not isinstance(car_list, dict):
+            return 400, json.dumps({"error": "Expected a list of car details"})
 
         # for car_details in car_list:
         car_brand = car_list.get('car_brand', None)
@@ -41,24 +41,24 @@ class GatewayService:
 
         # Check if any required field is None
         if None in (car_brand, car_name, car_type, car_trans, car_year, car_seats, car_lugg, car_price, provider_id):
-            return json.dumps({"error": "All car details fields are required and cannot be None"}), 400
+            return 400, json.dumps({"error": "All car details fields are required and cannot be None"})
 
         # Validate types
         if not all(isinstance(field, str) for field in [car_brand, car_name, car_type, car_trans]):
-            return json.dumps({"error": "car_brand, car_name, car_type, and car_trans must be strings"}), 400
+            return 400, json.dumps({"error": "car_brand, car_name, car_type, and car_trans must be strings"})
 
         if not all(isinstance(field, int) for field in [car_year, car_seats, car_lugg]):
-            return json.dumps({"error": "car_year, car_seats, and car_lugg must be integers"}), 400
+            return 400, json.dumps({"error": "car_year, car_seats, and car_lugg must be integers"})
 
         if not isinstance(car_price, (int, float)):
-            return json.dumps({"error": "car_price must be a number"}), 400
+            return 400, json.dumps({"error": "car_price must be a number"})
 
         if not isinstance(provider_id, int):
-            return json.dumps({"error": "provider_id must be an integer"}), 400
+            return 400, json.dumps({"error": "provider_id must be an integer"})
 
         # All entries are valid, proceed with adding cars
         responses = self.rental_rpc.add_car(car_list)
-        return json.dumps(responses), 200
+        return 200, json.dumps(responses)
 
     # Provider
     @http('GET', '/provider')
@@ -69,33 +69,29 @@ class GatewayService:
         else:
             return 404, json.dumps({"error": "Provider not found"})
 
-    @http('POST', '/provider')
+    @http('POST', '/provider_add')
     def add_provider(self, request):
         req = request.get_data(as_text=True)
         try:
             prov_list = json.loads(req)
         except json.JSONDecodeError:
-            return json.dumps({"error": "Invalid JSON format"}), 400
-
-        if not isinstance(prov_list, list):
-            return json.dumps({"error": "Expected a list of provider details"}), 400
+            return 400, json.dumps({"error": "Invalid JSON format"})
+        if not isinstance(prov_list, dict):
+            return 400, json.dumps({"error": "Expected a dictionary of provider details"})
 
         provider_name = prov_list.get('provider_name', None)
         provider_loc = prov_list.get('provider_loc', None)
         provider_phone = prov_list.get('provider_phone', None)
 
-        # Check if any required field is None
-        if None in (provider_name,provider_loc,provider_phone):
-            return json.dumps({"error": "All provider details fields are required and cannot be None"}), 400
-        
-        if not all(isinstance(field, str) for field in [provider_name,provider_loc]):
-            return json.dumps({"error": "provider_name and provider_loc must be strings"}), 400
+        if None in (provider_name, provider_loc, provider_phone):
+            return 400, json.dumps({"error": "All provider details fields are required and cannot be None"})
 
-        if not all(isinstance(field, int) for field in [provider_phone]):
-            return json.dumps({"error": "provider_phone must be integers"}), 400
-        
+        if not all(isinstance(field, str) for field in [provider_name, provider_loc, provider_phone]):
+            return 400, json.dumps({"error": "All fields must be strings"})
+
         responses = self.rental_rpc.add_provider(prov_list)
-        return json.dumps(responses), 200
+        return 200, json.dumps(responses)
+
     
 
     # Driver
@@ -107,16 +103,16 @@ class GatewayService:
         else:
             return 404, json.dumps({"error": "Driver not found"})
     
-    @http('POST', '/driver')
+    @http('POST', '/driver_add')
     def add_driver(self, request):
         req = request.get_data(as_text=True)
         try:
             driver_list = json.loads(req)
         except json.JSONDecodeError:
-            return json.dumps({"error": "Invalid JSON format"}), 400
+            return 400, json.dumps({"error": "Invalid JSON format"})
 
-        if not isinstance(driver_list, list):
-            return json.dumps({"error": "Expected a list of driver details"}), 400
+        if not isinstance(driver_list, dict):
+            return 400, json.dumps({"error": "Expected a list of driver details"})
 
         driver_name = driver_list.get('driver_name', None)
         driver_gender = driver_list.get('driver_gender', None)
@@ -125,13 +121,13 @@ class GatewayService:
 
         # Check if any required field is None
         if None in (driver_name,driver_gender,driver_age,driver_phone):
-            return json.dumps({"error": "All driver details fields are required and cannot be None"}), 400
+            return 400, json.dumps({"error": "All driver details fields are required and cannot be None"})
         
         if not all(isinstance(field, str) for field in [driver_name,driver_gender]):
-            return json.dumps({"error": "driver_name and driver_gender] must be strings"}), 400
+            return 400, json.dumps({"error": "driver_name and driver_gender] must be strings"})
 
         if not all(isinstance(field, int) for field in [driver_age,driver_phone]):
-            return json.dumps({"error": "driver_age and driver_phone must be integers"}), 400
+            return 400, json.dumps({"error": "driver_age and driver_phone must be integers"})
         
-        responses = self.rental_rpc.add_provider(driver_list)
-        return json.dumps(responses), 200
+        responses = self.rental_rpc.add_driver(driver_list)
+        return 200, json.dumps(responses)

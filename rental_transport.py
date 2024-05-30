@@ -47,7 +47,7 @@ class RentalService:
         driver_gender = driver_list.get('driver_gender')
         driver_age = driver_list.get('driver_age')
         driver_phone = driver_list.get('driver_phone')
-        self.database.add_provider(driver_name,driver_gender,driver_age,driver_phone)
+        self.database.add_driver(driver_name,driver_gender,driver_age,driver_phone)
         response.append({"status": "success", "message": "Driver added successfully."})
         return response
     

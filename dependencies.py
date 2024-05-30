@@ -45,25 +45,11 @@ class DatabaseWrapper:
         else:
             return False
 
-    def add_car(self,car_brand,car_name,car_type,car_trans,car_year,car_seats,car_lugg,car_price,provider_id):
-            cursor = self.connection.cursor(dictionary=True)
-            try:
-                sql = "INSERT INTO car (car_brand,car_name,car_type,car_trans,car_year,car_seats,car_lugg,car_price,provider_id) VALUES ({}, {}, {}, {}, {}, {}, {}, {}, {})".format(car_brand,car_name,car_type,car_trans,car_year,car_seats,car_lugg,car_price,provider_id)
-                cursor.execute(sql)
-                self.connection.commit()
-                cursor.close()
-                return True
-            except Exception as e:
-                print("An error occurred:", e)
-                self.connection.rollback()
-                cursor.close()
-                return False
-            
-    def add_provider(self,provider_name,provider_loc,provider_phone):
+    def add_car(self, car_brand, car_name, car_type, car_trans, car_year, car_seats, car_lugg, car_price, provider_id):
         cursor = self.connection.cursor(dictionary=True)
         try:
-            sql = "INSERT INTO car (provider_name,provider_loc,provider_phone) VALUES ({}, {}, {})".format(provider_name,provider_loc,provider_phone)
-            cursor.execute(sql)
+            sql = "INSERT INTO car (car_brand, car_name, car_type, car_trans, car_year, car_seats, car_lugg, car_price, provider_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            cursor.execute(sql, (car_brand, car_name, car_type, car_trans, car_year, car_seats, car_lugg, car_price, provider_id))
             self.connection.commit()
             cursor.close()
             return True
@@ -72,12 +58,13 @@ class DatabaseWrapper:
             self.connection.rollback()
             cursor.close()
             return False
+
             
-    def add_driver(self,driver_name,driver_gender,driver_age,driver_phone):
+    def add_provider(self, provider_name, provider_loc, provider_phone):
         cursor = self.connection.cursor(dictionary=True)
         try:
-            sql = "INSERT INTO car (driver_name,driver_gender,driver_age,driver_phone) VALUES ({}, {}, {}, {})".format(driver_name,driver_gender,driver_age,driver_phone)
-            cursor.execute(sql)
+            sql = "INSERT INTO provider (provider_name, provider_loc, provider_phone) VALUES (%s, %s, %s)"
+            cursor.execute(sql, (provider_name, provider_loc, provider_phone))
             self.connection.commit()
             cursor.close()
             return True
@@ -86,6 +73,22 @@ class DatabaseWrapper:
             self.connection.rollback()
             cursor.close()
             return False
+
+            
+    def add_driver(self, driver_name, driver_gender, driver_age, driver_phone):
+        cursor = self.connection.cursor(dictionary=True)
+        try:
+            sql = "INSERT INTO driver (driver_name, driver_gender, driver_age, driver_phone) VALUES (%s, %s, %s, %s)"
+            cursor.execute(sql, (driver_name, driver_gender, driver_age, driver_phone))
+            self.connection.commit()
+            cursor.close()
+            return True
+        except Exception as e:
+            print("An error occurred:", e)
+            self.connection.rollback()
+            cursor.close()
+            return False
+
 
     # Provider
     def get_provider(self):
