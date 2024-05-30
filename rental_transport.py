@@ -61,6 +61,27 @@ class RentalService:
     @rpc
     def get_driver(self):
         return self.database.get_driver()
-    
-#     @rpc
-#     def del_car(self, num):
+
+    @rpc
+    def delete_driver(self, driver_id):
+        if self.database.check_driverID(driver_id):
+            self.database.delete_driver(driver_id)
+            return {"status": "success", "message": f"Driver with ID {driver_id} has been deleted."}
+        else:
+            return {"status": "error", "message": f"Driver with ID {driver_id} does not exist."}
+        
+    @rpc
+    def delete_provider(self, provider_id):
+        if self.database.check_provID(provider_id):
+            self.database.delete_provider(provider_id)
+            return {"status": "success", "message": f"Provider with ID {provider_id} has been deleted."}
+        else:
+            return {"status": "error", "message": f"Provider with ID {provider_id} does not exist."}
+        
+    @rpc
+    def delete_car(self, car_id):
+        if self.database.check_carID(car_id):
+            self.database.delete_car(car_id)
+            return {"status": "success", "message": f"Car with ID {car_id} has been deleted."}
+        else:
+            return {"status": "error", "message": f"Car with ID {car_id} does not exist."}

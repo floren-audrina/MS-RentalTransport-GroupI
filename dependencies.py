@@ -44,6 +44,30 @@ class DatabaseWrapper:
             return result
         else:
             return False
+        
+    def check_driverID(self, id):
+        cursor = self.connection.cursor(dictionary=True)
+        sql = "SELECT driver_id FROM driver WHERE driver_id = {}".format(id)
+        cursor.execute(sql)
+        result = cursor.fetchone()  # Use fetchall to get all rows
+        cursor.close()
+
+        if result:
+            return result
+        else:
+            return False
+        
+    def check_carID(self, id):
+        cursor = self.connection.cursor(dictionary=True)
+        sql = "SELECT car_id FROM car WHERE car_id = {}".format(id)
+        cursor.execute(sql)
+        result = cursor.fetchone()  # Use fetchall to get all rows
+        cursor.close()
+
+        if result:
+            return result
+        else:
+            return False
 
     def add_car(self, car_brand, car_name, car_type, car_trans, car_year, car_seats, car_lugg, car_price, provider_id):
         cursor = self.connection.cursor(dictionary=True)
