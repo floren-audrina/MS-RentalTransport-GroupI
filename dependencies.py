@@ -71,7 +71,19 @@ class DatabaseWrapper:
             cursor.close()
             return False
         
-
+    def delete_car(self, id):
+        cursor = self.connection.cursor(dictionary=True)
+        try:
+            sql = "DELETE FROM car WHERE car_id = {}".format(id)
+            cursor.execute(sql)
+            self.connection.commit()
+            cursor.close()
+            return True
+        except Exception as e:
+            print("An error occurred:", e)
+            self.connection.rollback()
+            cursor.close()
+            return False
 
     # Provider
     def get_provider(self):
@@ -106,6 +118,20 @@ class DatabaseWrapper:
             cursor.close()
             return False
     
+    def delete_provider(self, id):
+        cursor = self.connection.cursor(dictionary=True)
+        try:
+            sql = "DELETE FROM provider WHERE provider_id = {}".format(id)
+            cursor.execute(sql)
+            self.connection.commit()
+            cursor.close()
+            return True
+        except Exception as e:
+            print("An error occurred:", e)
+            self.connection.rollback()
+            cursor.close()
+            return False
+    
 
     # Driver
     def get_driver(self):
@@ -131,6 +157,20 @@ class DatabaseWrapper:
         try:
             sql = "INSERT INTO driver (driver_name, driver_gender, driver_age, driver_phone) VALUES (%s, %s, %s, %s)"
             cursor.execute(sql, (driver_name, driver_gender, driver_age, driver_phone))
+            self.connection.commit()
+            cursor.close()
+            return True
+        except Exception as e:
+            print("An error occurred:", e)
+            self.connection.rollback()
+            cursor.close()
+            return False
+    
+    def delete_driver(self, id):
+        cursor = self.connection.cursor(dictionary=True)
+        try:
+            sql = "DELETE FROM driver WHERE driver_id = {}".format(id)
+            cursor.execute(sql)
             self.connection.commit()
             cursor.close()
             return True
