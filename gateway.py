@@ -70,7 +70,7 @@ class GatewayService:
             return 404, json.dumps({"error": "Provider not found"})
 
     @http('POST', '/provider')
-    def add_porvider(self, request):
+    def add_provider(self, request):
         req = request.get_data(as_text=True)
         try:
             prov_list = json.loads(req)

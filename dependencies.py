@@ -59,6 +59,33 @@ class DatabaseWrapper:
                 cursor.close()
                 return False
             
+    def add_provider(self,provider_name,provider_loc,provider_phone):
+        cursor = self.connection.cursor(dictionary=True)
+        try:
+            sql = "INSERT INTO car (provider_name,provider_loc,provider_phone) VALUES ({}, {}, {})".format(provider_name,provider_loc,provider_phone)
+            cursor.execute(sql)
+            self.connection.commit()
+            cursor.close()
+            return True
+        except Exception as e:
+            print("An error occurred:", e)
+            self.connection.rollback()
+            cursor.close()
+            return False
+            
+    def add_driver(self,driver_name,driver_gender,driver_age,driver_phone):
+        cursor = self.connection.cursor(dictionary=True)
+        try:
+            sql = "INSERT INTO car (driver_name,driver_gender,driver_age,driver_phone) VALUES ({}, {}, {}, {})".format(driver_name,driver_gender,driver_age,driver_phone)
+            cursor.execute(sql)
+            self.connection.commit()
+            cursor.close()
+            return True
+        except Exception as e:
+            print("An error occurred:", e)
+            self.connection.rollback()
+            cursor.close()
+            return False
 
     # Provider
     def get_provider(self):
