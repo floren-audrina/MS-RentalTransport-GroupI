@@ -4,9 +4,9 @@ import mysql.connector
 from mysql.connector import Error
 
 MODEL_DATA = {
-    'car': ['car_id', 'car_brand', 'car_name', 'car_type', 'car_trans', 'car_year', 'car_seats', 'car_lugg', 'car_price', 'provider_id'],
+    'car': ['car_id', 'car_brand', 'car_name', 'car_type', 'car_transmission', 'car_year', 'car_seats', 'car_luggages', 'car_price', 'driver_id'],
     'driver': ['driver_id', 'driver_name', 'driver_gender', 'driver_age', 'driver_phone'],
-    'provider': ['provider_id', 'provider_name', 'provider_loc', 'provider_phone']
+    'booking': ['booking_id', 'tanggal_mulai', 'tanggal_selesai', 'with_driver', 'total_harga', 'car_id']
 }
 
 class DatabaseWrapper:
@@ -57,11 +57,11 @@ class DatabaseWrapper:
         else:
             return False
 
-    def add_car(self, car_brand, car_name, car_type, car_trans, car_year, car_seats, car_lugg, car_price, provider_id):
+    def add_car(self, car_brand, car_name, car_type, car_transmission, car_year, car_seats, car_luggages, car_price, driver_id):
         cursor = self.connection.cursor(dictionary=True)
         try:
-            sql = "INSERT INTO car (car_brand, car_name, car_type, car_trans, car_year, car_seats, car_lugg, car_price, provider_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
-            cursor.execute(sql, (car_brand, car_name, car_type, car_trans, car_year, car_seats, car_lugg, car_price, provider_id))
+            sql = "INSERT INTO car (car_brand, car_name, car_type, car_transmission, car_year, car_seats, car_luggages, car_price, driver_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            cursor.execute(sql, (car_brand, car_name, car_type, car_transmission, car_year, car_seats, car_luggages, car_price, driver_id))
             self.connection.commit()
             cursor.close()
             return True
@@ -85,52 +85,6 @@ class DatabaseWrapper:
             cursor.close()
             return False
 
-    # Provider
-    def get_provider(self):
-        return self.fetch_all('provider')
-    
-    def get_provider_by_id(self, provider_id):
-        return self.fetch_by_id('provider', 'provider_id', provider_id)
-    
-    def check_provID(self, id):
-        cursor = self.connection.cursor(dictionary=True)
-        sql = "SELECT provider_id FROM provider WHERE provider_id = {}".format(id)
-        cursor.execute(sql)
-        result = cursor.fetchone()  # Use fetchall to get all rows
-        cursor.close()
-
-        if result:
-            return result
-        else:
-            return False
-            
-    def add_provider(self, provider_name, provider_loc, provider_phone):
-        cursor = self.connection.cursor(dictionary=True)
-        try:
-            sql = "INSERT INTO provider (provider_name, provider_loc, provider_phone) VALUES (%s, %s, %s)"
-            cursor.execute(sql, (provider_name, provider_loc, provider_phone))
-            self.connection.commit()
-            cursor.close()
-            return True
-        except Exception as e:
-            print("An error occurred:", e)
-            self.connection.rollback()
-            cursor.close()
-            return False
-    
-    def delete_provider(self, id):
-        cursor = self.connection.cursor(dictionary=True)
-        try:
-            sql = "DELETE FROM provider WHERE provider_id = {}".format(id)
-            cursor.execute(sql)
-            self.connection.commit()
-            cursor.close()
-            return True
-        except Exception as e:
-            print("An error occurred:", e)
-            self.connection.rollback()
-            cursor.close()
-            return False
     
 
     # Driver
@@ -179,6 +133,10 @@ class DatabaseWrapper:
             self.connection.rollback()
             cursor.close()
             return False
+        
+    
+    
+    # Booking
     
 
     def __del__(self):
@@ -195,7 +153,9 @@ class Database(DependencyProvider):
                 pool_size=10,
                 pool_reset_session=True,
                 host='localhost',
-                database='rental_db',
+                # database='rental_db',
+                database='jayamahe_easy_ride_jakarta',
+                # database='moovby_driverless_jakarta',
                 user='root',
                 password=''
             )

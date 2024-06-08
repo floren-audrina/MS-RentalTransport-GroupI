@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 06, 2024 at 11:30 AM
+-- Generation Time: Jun 08, 2024 at 10:41 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -62,7 +62,7 @@ CREATE TABLE `car` (
   `car_year` int(11) NOT NULL,
   `car_seats` int(11) NOT NULL,
   `car_luggages` int(11) NOT NULL,
-  `car_price` decimal(10,2) NOT NULL,
+  `car_price` int(11) NOT NULL,
   `driver_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -71,11 +71,14 @@ CREATE TABLE `car` (
 --
 
 INSERT INTO `car` (`car_id`, `car_brand`, `car_name`, `car_type`, `car_transmission`, `car_year`, `car_seats`, `car_luggages`, `car_price`, `driver_id`) VALUES
-(1, 'Nissan', 'Grand Livina', 'MPV', 'Automatic', 2020, 7, 2, '320000.00', 1),
-(2, 'Toyota', 'Yaris', 'Hatchback', 'Manual', 2019, 5, 1, '260000.00', 2),
-(3, 'Mitsubishi', 'Xpander', 'MPV', 'Automatic', 2021, 7, 3, '370000.00', 3),
-(4, 'Daihatsu', 'Terios', 'SUV', 'Manual', 2018, 7, 2, '290000.00', 4),
-(5, 'Ford', 'Everest', 'SUV', 'Automatic', 2022, 7, 3, '510000.00', 5);
+(1, 'Nissan', 'Grand Livina', 'MPV', 'Automatic', 2020, 7, 2, 320000, 1),
+(2, 'Toyota', 'Yaris', 'Hatchback', 'Manual', 2019, 5, 1, 260000, 2),
+(3, 'Mitsubishi', 'Xpander', 'MPV', 'Automatic', 2021, 7, 3, 370000, 3),
+(4, 'Daihatsu', 'Terios', 'SUV', 'Manual', 2018, 7, 2, 290000, 4),
+(5, 'Ford', 'Everest', 'SUV', 'Automatic', 2022, 7, 3, 510000, 5),
+(6, 'Toyota', 'Corolla', 'Sedan', 'Automatic', 2022, 5, 2, 25000, 1),
+(7, 'Toyota', 'Corolla', 'Sedan', 'Automatic', 2022, 5, 2, 25000, 1),
+(8, 'Toyota', 'Corollas', 'Sedan', 'Automatic', 2022, 5, 2, 25000, 1);
 
 -- --------------------------------------------------------
 
@@ -142,7 +145,7 @@ ALTER TABLE `booking`
 -- AUTO_INCREMENT for table `car`
 --
 ALTER TABLE `car`
-  MODIFY `car_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `car_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `driver`
