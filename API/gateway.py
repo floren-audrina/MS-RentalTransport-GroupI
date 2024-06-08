@@ -24,6 +24,14 @@ class GatewayService:
             return 200, json.dumps(result)
         else:
             return 404, json.dumps({"error": "Car not found"})
+        
+    @http('GET', '/available_cars')
+    def get_available_cars(self, request):
+        result = self.rental_rpc.get_available_cars()
+        if result:
+            return 200, json.dumps(result)
+        else:
+            return 404, json.dumps({"error": "No available cars found"})
 
     @http('POST', '/car_add')
     def add_car(self, request):

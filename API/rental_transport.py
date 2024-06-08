@@ -14,6 +14,10 @@ class RentalService:
     @rpc
     def get_car_by_id(self, car_id):
         return self.database.get_car_by_id(car_id)
+    
+    @rpc
+    def get_available_cars(self):
+        return self.database.get_available_cars()
 
     @rpc
     def add_car(self, car_list):
