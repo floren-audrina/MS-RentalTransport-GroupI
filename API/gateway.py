@@ -152,3 +152,18 @@ class GatewayService:
 
     
     # Booking
+    @http('GET', '/booking')
+    def get_booking(self, request):
+        result = self.rental_rpc.get_booking()
+        if result:
+            return 200, json.dumps(result)
+        else:
+            return 404, json.dumps({"error": "Booking not found"})
+        
+    @http('GET', '/booking/<int:booking_id>')
+    def get_booking_by_id(self, request, booking_id):
+        result = self.rental_rpc.get_booking_by_id(booking_id)
+        if result:
+            return 200, json.dumps(result)
+        else:
+            return 404, json.dumps({"error": "Booking not found"})

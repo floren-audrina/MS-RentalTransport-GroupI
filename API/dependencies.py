@@ -137,6 +137,16 @@ class DatabaseWrapper:
     
     
     # Booking
+    def get_booking(self):
+        return self.fetch_all('booking')
+
+    def get_booking_by_id(self, booking_id):
+        return self.fetch_by_id('booking', 'booking_id', booking_id)
+    
+
+    def __del__(self):
+        self.connection.close()
+
     
 
     def __del__(self):
@@ -154,8 +164,10 @@ class Database(DependencyProvider):
                 pool_reset_session=True,
                 host='localhost',
                 # database='rental_db',
-                database='jayamahe_easy_ride_jakarta',
+                # database='jayamahe_easy_ride_jakarta',
                 # database='moovby_driverless_jakarta',
+                # database='ada_kawan_jogja',
+                database='empat_roda_jogja',
                 user='root',
                 password=''
             )

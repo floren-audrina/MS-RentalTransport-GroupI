@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 08, 2024 at 12:01 PM
--- Server version: 10.4.25-MariaDB
--- PHP Version: 8.1.10
+-- Generation Time: Jun 08, 2024 at 01:39 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,12 +29,12 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `booking` (
   `booking_id` int(11) NOT NULL,
-  `tanggal_mulai` date NOT NULL,
-  `tanggal_selesai` date NOT NULL,
+  `tanggal_mulai` varchar(10) NOT NULL,
+  `tanggal_selesai` varchar(10) NOT NULL,
   `with_driver` tinyint(1) NOT NULL,
   `total_harga` int(11) NOT NULL,
   `car_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `booking`
@@ -65,20 +65,20 @@ CREATE TABLE `car` (
   `car_year` int(11) NOT NULL,
   `car_seats` int(11) NOT NULL,
   `car_luggages` int(11) NOT NULL,
-  `car_price` decimal(10,2) NOT NULL,
+  `car_price` int(11) NOT NULL,
   `driver_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `car`
 --
 
 INSERT INTO `car` (`car_id`, `car_brand`, `car_name`, `car_type`, `car_transmission`, `car_year`, `car_seats`, `car_luggages`, `car_price`, `driver_id`) VALUES
-(1, 'Toyota', 'Avanza', 'MPV', 'Automatic', 2020, 7, 2, '300000.00', 1),
-(2, 'Honda', 'Jazz', 'Hatchback', 'Manual', 2019, 5, 1, '250000.00', 2),
-(3, 'Suzuki', 'Ertiga', 'MPV', 'Automatic', 2021, 7, 3, '350000.00', 3),
-(4, 'Daihatsu', 'Xenia', 'MPV', 'Manual', 2018, 7, 2, '280000.00', 4),
-(5, 'Mitsubishi', 'Pajero', 'SUV', 'Automatic', 2022, 7, 3, '500000.00', 5);
+(1, 'Toyota', 'Avanza', 'MPV', 'Automatic', 2020, 7, 2, 300000, 1),
+(2, 'Honda', 'Jazz', 'Hatchback', 'Manual', 2019, 5, 1, 250000, 2),
+(3, 'Suzuki', 'Ertiga', 'MPV', 'Automatic', 2021, 7, 3, 350000, 3),
+(4, 'Daihatsu', 'Xenia', 'MPV', 'Manual', 2018, 7, 2, 280000, 4),
+(5, 'Mitsubishi', 'Pajero', 'SUV', 'Automatic', 2022, 7, 3, 500000, 5);
 
 -- --------------------------------------------------------
 
@@ -93,7 +93,7 @@ CREATE TABLE `driver` (
   `driver_age` int(11) NOT NULL,
   `driver_phone` varchar(15) NOT NULL,
   `car_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `driver`

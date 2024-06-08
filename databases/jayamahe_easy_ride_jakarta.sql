@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 08, 2024 at 10:41 AM
+-- Generation Time: Jun 08, 2024 at 11:36 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -29,10 +29,10 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `booking` (
   `booking_id` int(11) NOT NULL,
-  `tanggal_mulai` date NOT NULL,
-  `tanggal_selesai` date NOT NULL,
+  `tanggal_mulai` varchar(10) NOT NULL,
+  `tanggal_selesai` varchar(10) NOT NULL,
   `with_driver` tinyint(1) NOT NULL,
-  `total_harga` decimal(10,2) NOT NULL,
+  `total_harga` int(11) NOT NULL,
   `car_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -41,11 +41,11 @@ CREATE TABLE `booking` (
 --
 
 INSERT INTO `booking` (`booking_id`, `tanggal_mulai`, `tanggal_selesai`, `with_driver`, `total_harga`, `car_id`) VALUES
-(1, '2024-07-01', '2024-07-05', 1, '1280000.00', 1),
-(2, '2024-07-10', '2024-07-12', 0, '520000.00', 2),
-(3, '2024-07-15', '2024-07-18', 1, '1480000.00', 3),
-(4, '2024-07-20', '2024-07-22', 0, '580000.00', 4),
-(5, '2024-07-25', '2024-07-30', 1, '3060000.00', 5);
+(1, '2024-07-01', '2024-07-05', 1, 1280000, 1),
+(2, '2024-07-10', '2024-07-12', 0, 520000, 2),
+(3, '2024-07-15', '2024-07-18', 1, 1480000, 3),
+(4, '2024-07-20', '2024-07-22', 0, 580000, 4),
+(5, '2024-07-25', '2024-07-30', 1, 3060000, 5);
 
 -- --------------------------------------------------------
 

@@ -76,3 +76,10 @@ class RentalService:
         
         
     # Booking
+    @rpc
+    def get_booking(self):
+        return self.database.get_booking()
+    
+    @rpc
+    def get_booking_by_id(self, booking_id):
+        return self.database.get_booking_by_id(booking_id)
