@@ -83,3 +83,9 @@ class RentalService:
     @rpc
     def get_booking_by_id(self, booking_id):
         return self.database.get_booking_by_id(booking_id)
+
+
+    
+    @rpc
+    def check_booking_is_done(self, booking_id):
+        return self.database.check_booking_is_done(booking_id)

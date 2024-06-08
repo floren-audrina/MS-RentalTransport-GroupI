@@ -167,3 +167,10 @@ class GatewayService:
             return 200, json.dumps(result)
         else:
             return 404, json.dumps({"error": "Booking not found"})
+        
+        
+        
+    @http('GET', '/booking/check/<int:booking_id>')
+    def check_booking_is_done(self, request, booking_id):
+        result = self.rental_rpc.check_booking_is_done(booking_id)
+        return 200, json.dumps(result)

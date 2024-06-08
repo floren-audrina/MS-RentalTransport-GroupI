@@ -143,11 +143,36 @@ class DatabaseWrapper:
     def get_booking_by_id(self, booking_id):
         return self.fetch_by_id('booking', 'booking_id', booking_id)
     
-
-    def __del__(self):
-        self.connection.close()
-
     
+    
+    # Check 
+    def check_booking_is_done(self, booking_id):
+        cursor = self.connection.cursor(dictionary=True)
+        sql = "SELECT tanggal_mulai, tanggal_selesai FROM booking WHERE booking_id = %s"
+        cursor.execute(sql, (booking_id,))
+        row = cursor.fetchone()
+        cursor.close()
+
+        if not row:
+            return {"status": "error", "message": f"Booking with ID {booking_id} does not exist."}
+
+        tanggal_mulai = row['tanggal_mulai']
+        tanggal_selesai = row['tanggal_selesai']
+
+        from datetime import datetime
+
+        current_date = datetime.now().strftime("%Y-%m-%d")  # format harus sesuai dengan format tanggal di database
+
+        if current_date > tanggal_selesai:
+            return {"status": "done", "message": "Booking is done."}
+        elif current_date < tanggal_mulai:
+            return {"status": "not_started", "message": "Booking has not started yet."}
+        else:
+            return {"status": "in_progress", "message": "Booking is in progress."}
+        
+        
+        
+        
 
     def __del__(self):
         self.connection.close()
