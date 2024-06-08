@@ -2,6 +2,7 @@ import json
 
 from nameko.rpc import RpcProxy
 from nameko.web.handlers import http
+from datetime import datetime, date
 
 
 class GatewayService:
@@ -176,7 +177,45 @@ class GatewayService:
         else:
             return 404, json.dumps({"error": "Booking not found"})
         
+    @http('POST', '/booking_add')
+    def add_booking(self, request):
+        req = request.get_data(as_text=True)
+        try:
+            booking_data = json.loads(req)
+        except json.JSONDecodeError:
+            return 400, json.dumps({"error": "Invalid JSON format"})
+
+        if not isinstance(booking_data, dict):
+            return 400, json.dumps({"error": "Expected a list of booking data"})
+
+        # for car_details in car_list:
+        tanggal_mulai = booking_data.get('tanggal_mulai', None)
+        tanggal_selesai = booking_data.get('tanggal_selesai', None)
+        with_driver = booking_data.get('with_driver', None)
+        total_harga = booking_data.get('total_harga', None)
+        car_id = booking_data.get('car_id', None)
+
+        # Check if any required field is None
+        if None in (tanggal_mulai,tanggal_selesai,with_driver,total_harga,car_id):
+            return 400, json.dumps({"error": "All booking data fields are required and cannot be None"})
+
+        # Validate types
+        if not all(isinstance(field, int) for field in [with_driver, total_harga, car_id]):
+            return 400, json.dumps({"error": "with_driver, total_harga, and car_id must be integers"})
+
+        if not all(isinstance(field, str) for field in [tanggal_mulai, tanggal_selesai]):
+            return 400, {"error": "tanggal_mulai and tanggal_selesai must be a string so it can be parsed to date"}
         
+        # Parse string dates into date objects
+        try:
+            tanggal_mulai = datetime.strptime(tanggal_mulai, "%Y-%m-%d").date()
+            tanggal_selesai = datetime.strptime(tanggal_selesai, "%Y-%m-%d").date()
+        except ValueError:
+            return 400, json.dumps({"error": "Invalid date format. Expected format: YYYY-MM-DD"})
+
+        # All entries are valid, proceed with adding cars
+        responses = self.rental_rpc.add_booking(booking_data)
+        return 200, json.dumps(responses)
         
     @http('GET', '/booking/check/<int:booking_id>')
     def check_booking_is_done(self, request, booking_id):

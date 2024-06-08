@@ -164,7 +164,19 @@ class DatabaseWrapper:
     def get_booking_by_id(self, booking_id):
         return self.fetch_by_id('booking', 'booking_id', booking_id)
     
-    
+    def add_booking(self, tanggal_mulai, tanggal_selesai, with_driver, total_harga, car_id):
+        cursor = self.connection.cursor(dictionary=True)
+        try:
+            sql = "INSERT INTO booking (tanggal_mulai, tanggal_selesai, with_driver, total_harga, car_id) VALUES (%s, %s, %s, %s, %s)"
+            cursor.execute(sql, (tanggal_mulai, tanggal_selesai, with_driver, total_harga, car_id))
+            self.connection.commit()
+            cursor.close()
+            return True
+        except Exception as e:
+            print("An error occurred:", e)
+            self.connection.rollback()
+            cursor.close()
+            return False
     
     # Check 
     def check_booking_is_done(self, booking_id):
