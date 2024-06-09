@@ -46,24 +46,20 @@ class DatabaseWrapper:
     def get_car_by_id(self, car_id):
         return self.fetch_by_id('car', 'car_id', car_id)
     
-    def get_available_cars(self):
-        current_date = datetime.now().date()
+    def get_available_cars(self, start, end):
+        try:
+            start = datetime.strptime(start, "%Y-%m-%d").date()
+            end = datetime.strptime(end, "%Y-%m-%d").date()
+        except ValueError:
+            return 400, {"error": "Invalid date format. Expected format: 'YYYY-MM-DD'"}
+
         cursor = self.connection.cursor(dictionary=True)
 
-        sql = "SELECT DISTINCT car_id FROM booking WHERE %s BETWEEN tanggal_mulai AND tanggal_selesai"
-        cursor.execute(sql, (current_date,))
-        booked_cars = {row['car_id'] for row in cursor.fetchall()}
-        
-        # Get all unique car IDs from the car table
-        sql = "SELECT DISTINCT car_id FROM car"
-        cursor.execute(sql)
-        all_cars = {row['car_id'] for row in cursor.fetchall()}
+        sql = 'SELECT DISTINCT car_id FROM car WHERE car_id NOT IN (SELECT car_id FROM booking WHERE (%s BETWEEN tanggal_mulai AND tanggal_selesai) OR (%s BETWEEN tanggal_mulai AND tanggal_selesai) OR (tanggal_mulai BETWEEN %s AND %s) OR (tanggal_selesai BETWEEN %s AND %s))'
+        cursor.execute(sql, (start, end, start, end, start, end))
+        available_cars = [row['car_id'] for row in cursor.fetchall()]
         
         cursor.close()
-        
-        # Find available cars by subtracting booked cars from all cars
-        available_cars = list(all_cars - booked_cars)
-        
         return available_cars
     
     def check_carID(self, id):

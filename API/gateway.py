@@ -28,11 +28,25 @@ class GatewayService:
         
     @http('GET', '/available_cars')
     def get_available_cars(self, request):
-        result = self.rental_rpc.get_available_cars()
-        if result:
-            return 200, json.dumps(result)
+        start = request.args.get('tanggal_mulai')
+        end = request.args.get('tanggal_selesai')
+
+        if not start or not end:
+            return 400, json.dumps({"error": "tanggal_mulai and tanggal_selesai parameters are required"})
+        if not all(isinstance(field, str) for field in [start, end]):
+            return 400, {"error": "tanggal_mulai and tanggal_selesai must be a string so it can be parsed to date"}
+        
+        result = self.rental_rpc.get_available_cars(start, end)
+
+        if isinstance(result, dict) and "error" in result:
+            return 400, json.dumps(result)
+        
+        result_list = list(result)
+        
+        if result_list:
+            return 200, json.dumps(result_list)
         else:
-            return 404, json.dumps({"error": "No available cars found"})
+            return 404, json.dumps({"error": "No available cars"})
 
     @http('POST', '/car_add')
     def add_car(self, request):
