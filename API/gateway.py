@@ -26,6 +26,7 @@ class GatewayService:
         else:
             return 404, json.dumps({"error": "Car not found"})
         
+    # resource example : http://localhost:8000/available_cars?tanggal_mulai=2024-06-02&tanggal_selesai=2024-06-09
     @http('GET', '/available_cars')
     def get_available_cars(self, request):
         start = request.args.get('tanggal_mulai')
@@ -91,22 +92,17 @@ class GatewayService:
         responses = self.rental_rpc.add_car(car_list)
         return 200, json.dumps(responses)
 
-    @http('DELETE', '/car_delete')
-    def delete_car(self, request):
-        req = request.get_data(as_text=True)
-        try:
-            data = json.loads(req)
-        except json.JSONDecodeError:
-            return 400, json.dumps({"error": "Invalid JSON format"})
-        car_id = data.get('car_id')
+    @http('DELETE', '/car_delete/<int:car_id>')
+    def delete_car(self, request, car_id):
+        if not isinstance(car_id, int) or car_id <= 0:
+            return 400, json.dumps({"error": "Invalid car ID"})
         
-        if not isinstance(car_id, int):
-            return 400, json.dumps({"error": "car_id must be an integer"})
-        
-        if car_id not in self.rental_rpc:
-            return 404, json.dumps({"error": "Car not found"})
-        del self.rental_rpc.delete_car[car_id]
-        return 200, json.dumps({"message": "Car deleted successfully"})
+        result = self.rental_rpc.delete_car(car_id)
+    
+        if result.get("status") == "error":
+            return 404, json.dumps({"error": result.get("message")})
+        else:
+            return 200, json.dumps({"message": "Car deleted successfully"})
 
     # Driver
     @http('GET', '/driver')
@@ -154,26 +150,19 @@ class GatewayService:
         responses = self.rental_rpc.add_driver(driver_list)
         return 200, json.dumps(responses)
     
-    @http('DELETE', '/driver_delete')
-    def delete_driver(self, request):
-        req = request.get_data(as_text=True)
+    @http('DELETE', '/driver_delete/<int:driver_id>')
+    def delete_driver(self, request, driver_id):
+        if not isinstance(driver_id, int) or driver_id <= 0:
+            return 400, json.dumps({"error": "Invalid driver ID"})
         
-        try:
-            data = json.loads(req)
-        except json.JSONDecodeError:
-            return 400, json.dumps({"error": "Invalid JSON format"})
-        driver_id = data.get('driver_id')
-        
-        if not isinstance(driver_id, int):
-            return 400, json.dumps({"error": "driver_id must be an integer"})
-        
-        if driver_id not in self.rental_rpc:
-            return 404, json.dumps({"error": "Driver not found"})
-        del self.rental_rpc.delete_driver[driver_id]
-        return 200, json.dumps({"message": "Driver deleted successfully"})
+        result = self.rental_rpc.delete_driver(driver_id)
+    
+        if result.get("status") == "error":
+            return 404, json.dumps({"error": result.get("message")})
+        else:
+            return 200, json.dumps({"message": "Driver deleted successfully"})
     
 
-    
     # Booking
     @http('GET', '/booking')
     def get_booking(self, request):

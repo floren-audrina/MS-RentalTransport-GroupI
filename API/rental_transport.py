@@ -47,8 +47,6 @@ class RentalService:
         else:
             return {"status": "error", "message": f"Car with ID {car_id} does not exist."}
 
-    
-    
     # Driver
     @rpc
     def get_driver(self):
@@ -76,7 +74,6 @@ class RentalService:
             return {"status": "success", "message": f"Driver with ID {driver_id} has been deleted."}
         else:
             return {"status": "error", "message": f"Driver with ID {driver_id} does not exist."}
-        
         
         
     # Booking
