@@ -106,7 +106,7 @@ INSERT INTO `driver` (`driver_id`, `driver_name`, `driver_gender`, `driver_age`,
 (2, 'Bambang Jenggolo', 'M', 32, '081000000022', 2),
 (3, 'Semi Purwati', 'F', 33, '081000000033', 3),
 (4, 'Budi Arifin', 'M', 34, '081000000044', 4),
-(5, 'Kiki Savandra', 'M', 35, '081000000055', 5).
+(5, 'Kiki Savandra', 'M', 35, '081000000055', 5),
 (6, 'Arif Dwi', 'M', 36, '081000000066', 6),
 (7, 'rudy Dharmawangsa', 'M', 37, '081000000077', 7);
 
