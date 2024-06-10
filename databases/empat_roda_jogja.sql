@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 08, 2024 at 01:39 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Generation Time: Jun 10, 2024 at 09:08 AM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,12 +29,12 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `booking` (
   `booking_id` int(11) NOT NULL,
-  `tanggal_mulai` varchar(10) NOT NULL,
-  `tanggal_selesai` varchar(10) NOT NULL,
+  `tanggal_mulai` date NOT NULL,
+  `tanggal_selesai` date NOT NULL,
   `with_driver` tinyint(1) NOT NULL,
   `total_harga` int(11) NOT NULL,
   `car_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `booking`
@@ -48,7 +48,8 @@ INSERT INTO `booking` (`booking_id`, `tanggal_mulai`, `tanggal_selesai`, `with_d
 (5, '2024-06-16', '2024-06-25', 0, 900000, 4),
 (6, '2024-06-23', '2024-06-29', 0, 750000, 3),
 (7, '2024-07-01', '2024-07-03', 1, 500000, 1),
-(8, '2024-07-05', '2024-07-09', 1, 700000, 5);
+(8, '2024-07-05', '2024-07-09', 1, 700000, 5),
+(9, '2024-08-05', '2024-08-09', 0, 560000, 3);
 
 -- --------------------------------------------------------
 
@@ -67,14 +68,14 @@ CREATE TABLE `car` (
   `car_luggages` int(11) NOT NULL,
   `car_price` int(11) NOT NULL,
   `driver_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `car`
 --
 
 INSERT INTO `car` (`car_id`, `car_brand`, `car_name`, `car_type`, `car_transmission`, `car_year`, `car_seats`, `car_luggages`, `car_price`, `driver_id`) VALUES
-(1, 'Toyota', 'Avanza', 'MPV', 'Automatic', 2020, 7, 2, 300000, 1),
+(1, 'Toyota', 'Fortuner', 'SUV', 'Automatic', 2019, 7, 2, 450000, 1),
 (2, 'Honda', 'Jazz', 'Hatchback', 'Manual', 2019, 5, 1, 250000, 2),
 (3, 'Suzuki', 'Ertiga', 'MPV', 'Automatic', 2021, 7, 3, 350000, 3),
 (4, 'Daihatsu', 'Xenia', 'MPV', 'Manual', 2018, 7, 2, 280000, 4),
@@ -93,7 +94,7 @@ CREATE TABLE `driver` (
   `driver_age` int(11) NOT NULL,
   `driver_phone` varchar(15) NOT NULL,
   `car_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `driver`
@@ -139,7 +140,7 @@ ALTER TABLE `driver`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `car`
@@ -151,7 +152,7 @@ ALTER TABLE `car`
 -- AUTO_INCREMENT for table `driver`
 --
 ALTER TABLE `driver`
-  MODIFY `driver_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `driver_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables

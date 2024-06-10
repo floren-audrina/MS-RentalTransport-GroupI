@@ -26,7 +26,7 @@ class GatewayService:
         else:
             return 404, json.dumps({"error": "Car not found"})
         
-    # resource example : http://localhost:8000/available_cars?tanggal_mulai=2024-06-02&tanggal_selesai=2024-06-09
+    # resource example : http://localhost:8000/available_cars/2024-06-02/2024-06-09
     @http('GET', '/available_cars/<string:tanggal_mulai>/<string:tanggal_selesai>')
     def get_available_cars(self, request, tanggal_mulai, tanggal_selesai):
         # start = request.args.get('tanggal_mulai')

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 08, 2024 at 01:38 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Generation Time: Jun 10, 2024 at 09:07 AM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,12 +29,12 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `booking` (
   `booking_id` int(11) NOT NULL,
-  `tanggal_mulai` varchar(10) NOT NULL,
-  `tanggal_selesai` varchar(10) NOT NULL,
+  `tanggal_mulai` date NOT NULL,
+  `tanggal_selesai` date NOT NULL,
   `with_driver` tinyint(1) NOT NULL,
   `total_harga` int(11) NOT NULL,
   `car_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `booking`
@@ -67,7 +67,7 @@ CREATE TABLE `car` (
   `car_luggages` int(11) NOT NULL,
   `car_price` int(11) NOT NULL,
   `driver_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `car`
@@ -93,7 +93,7 @@ CREATE TABLE `driver` (
   `driver_age` int(11) NOT NULL,
   `driver_phone` varchar(15) NOT NULL,
   `car_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `driver`
