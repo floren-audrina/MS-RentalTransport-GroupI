@@ -4,6 +4,9 @@ import mysql.connector
 from mysql.connector import Error
 from datetime import datetime
 
+import boto3
+from botocore.exceptions import NoCredentialsError, PartialCredentialsError, ClientError, EndpointConnectionError
+
 MODEL_DATA = {
     'car': ['car_id', 'car_brand', 'car_name', 'car_type', 'car_transmission', 'car_year', 'car_seats', 'car_luggages', 'car_price', 'driver_id'],
     'driver': ['driver_id', 'driver_name', 'driver_gender', 'driver_age', 'driver_phone'],
@@ -13,6 +16,9 @@ MODEL_DATA = {
 class DatabaseWrapper:
 
     connection = None
+    
+    BUCKET_NAME = 'car-image-soa'
+    s3 = boto3.client('s3')
 
     def __init__(self, connection):
         self.connection = connection
@@ -152,7 +158,31 @@ class DatabaseWrapper:
             cursor.close()
             return False
 
-    
+    # Car Image
+    def get_car_image_s3(self):
+        result = None
+        try:
+            response = self.s3.list_objects_v2(Bucket=self.BUCKET_NAME)
+            result = []
+            for obj in response['Contents']:
+                # print(obj)
+                key = obj['Key'].replace(" ", "+")
+                url = "https://{0}.s3.amazonaws.com/{1}".format(self.BUCKET_NAME, key)
+                result.append(url)
+        except NoCredentialsError:
+            result = {"error": "No AWS credentials were provided."}
+        except PartialCredentialsError:
+            result = {"error": "Incomplete AWS credentials provided."}
+        except EndpointConnectionError:
+            result = {"error": "Could not connect to the specified endpoint."}
+        except ClientError as e:
+            # Handle any client error thrown by boto3
+            result = {"error": str(e)}
+        except Exception as e:
+            # Catch any other exceptions
+            result = {"error": str(e)}
+        print(result)
+        return result
 
     # Driver
     def get_driver(self):
