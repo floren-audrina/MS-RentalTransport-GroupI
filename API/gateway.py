@@ -27,17 +27,17 @@ class GatewayService:
             return 404, json.dumps({"error": "Car not found"})
         
     # resource example : http://localhost:8000/available_cars?tanggal_mulai=2024-06-02&tanggal_selesai=2024-06-09
-    @http('GET', '/available_cars')
-    def get_available_cars(self, request):
-        start = request.args.get('tanggal_mulai')
-        end = request.args.get('tanggal_selesai')
+    @http('GET', '/available_cars/<string:tanggal_mulai>/<string:tanggal_selesai>')
+    def get_available_cars(self, request, tanggal_mulai, tanggal_selesai):
+        # start = request.args.get('tanggal_mulai')
+        # end = request.args.get('tanggal_selesai')
 
-        if not start or not end:
+        if not tanggal_mulai or not tanggal_selesai:
             return 400, json.dumps({"error": "tanggal_mulai and tanggal_selesai parameters are required"})
-        if not all(isinstance(field, str) for field in [start, end]):
+        if not all(isinstance(field, str) for field in [tanggal_mulai, tanggal_selesai]):
             return 400, {"error": "tanggal_mulai and tanggal_selesai must be a string so it can be parsed to date"}
         
-        result = self.rental_rpc.get_available_cars(start, end)
+        result = self.rental_rpc.get_available_cars(tanggal_mulai, tanggal_selesai)
 
         if isinstance(result, dict) and "error" in result:
             return 400, json.dumps(result)
