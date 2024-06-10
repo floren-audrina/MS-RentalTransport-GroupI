@@ -40,6 +40,32 @@ class RentalService:
         return response
     
     @rpc
+    def edit_car(self, car_details):
+        response = []
+        car_id = car_details.get('car_id')
+        driver_id = car_details.get('driver_id')
+        
+        if self.database.check_carID(car_id) and (driver_id == "-" or self.database.check_driverID(driver_id)):
+            car_brand = car_details.get('car_brand')
+            car_name = car_details.get('car_name')
+            car_type = car_details.get('car_type')
+            car_transmission = car_details.get('car_transmission')
+            car_year = car_details.get('car_year')
+            car_seats = car_details.get('car_seats')
+            car_luggages = car_details.get('car_luggages')
+            car_price = car_details.get('car_price')
+            driver_id = car_details.get('driver_id')
+            
+            if self.database.edit_car(car_id, car_brand, car_name, car_type, car_transmission, car_year, car_seats, car_luggages, car_price, driver_id):
+                response.append({"status": "success", "message": "Car updated successfully."})
+            else:
+                response.append({"status": "error", "message": "Failed to update car details."})
+        else:
+            response.append({"status": "error", "message": "Car ID or Driver ID does not exist."})
+        return response
+
+
+    @rpc
     def delete_car(self, car_id):
         if self.database.check_carID(car_id):
             self.database.delete_car(car_id)
@@ -66,6 +92,27 @@ class RentalService:
         self.database.add_driver(driver_name,driver_gender,driver_age,driver_phone)
         response.append({"status": "success", "message": "Driver added successfully."})
         return response
+    
+    @rpc
+    def edit_driver(self, driver_details):
+        response = []
+        driver_id = driver_details.get('driver_id')
+
+        if self.database.check_driverID(driver_id):
+            driver_name = driver_details.get('driver_name')
+            driver_gender = driver_details.get('driver_gender')
+            driver_age = driver_details.get('driver_age')
+            driver_phone = driver_details.get('driver_phone')
+            car_id = driver_details.get('car_id')
+
+            if self.database.edit_driver(driver_id, driver_name, driver_gender, driver_age, driver_phone, car_id):
+                response.append({"status": "success", "message": "Driver updated successfully."})
+            else:
+                response.append({"status": "error", "message": "Failed to update driver details."})
+        else:
+            response.append({"status": "error", "message": "Driver ID does not exist."})
+        return response
+
     
     @rpc
     def delete_driver(self, driver_id):
@@ -99,6 +146,30 @@ class RentalService:
             response.append({"status": "success", "message": "Booking added successfully."})
         else:
             response.append({"status": "error", "message": f"Car with ID {car_id} does not exist."})
+        return response
+    
+    @rpc
+    def edit_booking(self, booking_details):
+        response = []
+        booking_id = booking_details.get('booking_id')
+
+        if self.database.check_bookingID(booking_id):
+            start_date = booking_details.get('tanggal_mulai')
+            end_date = booking_details.get('tanggal_selesai')
+            with_driver = booking_details.get('with_driver')
+            total_price = booking_details.get('total_harga')
+            car_id = booking_details.get('car_id')
+
+            if car_id != "-" and not self.database.check_carID(car_id):
+                response.append({"status": "error", "message": f"Car with ID {car_id} does not exist."})
+                return response
+
+            if self.database.edit_booking(booking_id, start_date, end_date, with_driver, total_price, car_id):
+                response.append({"status": "success", "message": "Booking updated successfully."})
+            else:
+                response.append({"status": "error", "message": "Failed to update booking details."})
+        else:
+            response.append({"status": "error", "message": "Booking ID does not exist."})
         return response
     
     @rpc

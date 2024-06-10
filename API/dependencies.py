@@ -88,6 +88,56 @@ class DatabaseWrapper:
             cursor.close()
             return False
         
+    def edit_car(self, car_id, car_brand, car_name, car_type, car_transmission, car_year, car_seats, car_luggages, car_price, driver_id):
+        cursor = self.connection.cursor(dictionary=True)
+        try:
+            updates = []
+            params = []
+
+            if car_brand != "-":
+                updates.append("car_brand = %s")
+                params.append(car_brand)
+            if car_name != "-":
+                updates.append("car_name = %s")
+                params.append(car_name)
+            if car_type != "-":
+                updates.append("car_type = %s")
+                params.append(car_type)
+            if car_transmission != "-":
+                updates.append("car_transmission = %s")
+                params.append(car_transmission)
+            if car_year != "-":
+                updates.append("car_year = %s")
+                params.append(car_year)
+            if car_seats != "-":
+                updates.append("car_seats = %s")
+                params.append(car_seats)
+            if car_luggages != "-":
+                updates.append("car_luggages = %s")
+                params.append(car_luggages)
+            if car_price != "-":
+                updates.append("car_price = %s")
+                params.append(car_price)
+            if driver_id != "-":
+                updates.append("driver_id = %s")
+                params.append(driver_id)
+            
+            if not updates:
+                return False  # Nothing to update
+
+            sql = "UPDATE car SET " + ", ".join(updates) + " WHERE car_id = %s"
+            params.append(car_id)
+
+            cursor.execute(sql, tuple(params))
+            self.connection.commit()
+            cursor.close()
+            return True
+        except Exception as e:
+            print("An error occurred:", e)
+            self.connection.rollback()
+            cursor.close()
+            return False
+
     def delete_car(self, id):
         cursor = self.connection.cursor(dictionary=True)
         try:
@@ -136,6 +186,45 @@ class DatabaseWrapper:
             self.connection.rollback()
             cursor.close()
             return False
+        
+    def edit_driver(self, driver_id, driver_name, driver_gender, driver_age, driver_phone, car_id):
+        cursor = self.connection.cursor(dictionary=True)
+        try:
+            updates = []
+            params = []
+
+            if driver_name != "-":
+                updates.append("driver_name = %s")
+                params.append(driver_name)
+            if driver_gender != "-":
+                updates.append("driver_gender = %s")
+                params.append(driver_gender)
+            if driver_age != "-":
+                updates.append("driver_age = %s")
+                params.append(driver_age)
+            if driver_phone != "-":
+                updates.append("driver_phone = %s")
+                params.append(driver_phone)
+            if car_id != "-":
+                updates.append("car_id = %s")
+                params.append(car_id)
+            
+            if not updates:
+                return False  # Nothing to update
+
+            sql = "UPDATE driver SET " + ", ".join(updates) + " WHERE driver_id = %s"
+            params.append(driver_id)
+
+            cursor.execute(sql, tuple(params))
+            self.connection.commit()
+            cursor.close()
+            return True
+        except Exception as e:
+            print("An error occurred:", e)
+            self.connection.rollback()
+            cursor.close()
+            return False
+
     
     def delete_driver(self, id):
         cursor = self.connection.cursor(dictionary=True)
@@ -160,11 +249,57 @@ class DatabaseWrapper:
     def get_booking_by_id(self, booking_id):
         return self.fetch_by_id('booking', 'booking_id', booking_id)
     
+    def check_bookingID(self, booking_id):
+        if self.get_booking_by_id(booking_id) :
+            return True
+        else :
+            return False
+    
     def add_booking(self, tanggal_mulai, tanggal_selesai, with_driver, total_harga, car_id):
         cursor = self.connection.cursor(dictionary=True)
         try:
             sql = "INSERT INTO booking (tanggal_mulai, tanggal_selesai, with_driver, total_harga, car_id) VALUES (%s, %s, %s, %s, %s)"
             cursor.execute(sql, (tanggal_mulai, tanggal_selesai, with_driver, total_harga, car_id))
+            self.connection.commit()
+            cursor.close()
+            return True
+        except Exception as e:
+            print("An error occurred:", e)
+            self.connection.rollback()
+            cursor.close()
+            return False
+        
+    def edit_booking(self, booking_id, start_date, end_date, with_driver, total_price, car_id):
+        cursor = self.connection.cursor(dictionary=True)
+        try:
+            updates = []
+            params = []
+
+            if start_date:
+                start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
+                updates.append("tanggal_mulai = %s")
+                params.append(start_date)
+            if end_date:
+                end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
+                updates.append("tanggal_selesai = %s")
+                params.append(end_date)
+            if with_driver is not None:
+                updates.append("with_driver = %s")
+                params.append(with_driver)
+            if total_price:
+                updates.append("total_harga = %s")
+                params.append(total_price)
+            if car_id is not None:
+                updates.append("car_id = %s")
+                params.append(car_id)
+            
+            if not updates:
+                return False  # Nothing to update
+
+            sql = "UPDATE booking SET " + ", ".join(updates) + " WHERE booking_id = %s"
+            params.append(booking_id)
+
+            cursor.execute(sql, tuple(params))
             self.connection.commit()
             cursor.close()
             return True
