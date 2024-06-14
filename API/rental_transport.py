@@ -9,7 +9,10 @@ class RentalService:
     # Car
     @rpc
     def get_car(self):
-        return self.database.get_car()
+        result = {}
+        result['data'] = self.database.get_car()
+        result['image']= self.database.get_car_image_s3()
+        return result
     
     @rpc
     def get_car_by_id(self, car_id):

@@ -18,7 +18,13 @@ if ($carData === null) {
 }
 
 // Ambil detail mobil dari data JSON
-$car = $carData[1]; // Asumsikan kita ambil data mobil pertama
+$cars = $carData['data'];
+
+// Asumsikan kita ambil data mobil pertama
+$carIndex = 0; // Ganti indeks sesuai kebutuhan
+$car = $cars[$carIndex];
+$imageUrl = $car['image'];
+var_dump($imageUrl);
 ?>
 
 <!DOCTYPE html>
@@ -38,26 +44,15 @@ $car = $carData[1]; // Asumsikan kita ambil data mobil pertama
             <p>Surabaya - Mon, 10 Jun 2024 09:00 - Wed, 12 Jun 2024 09:00</p>
         </header>
         <div class="car-details">
-            <img src="car_image.png" alt="Car Image" class="car-image">
+            <img src="<?php echo htmlspecialchars($imageUrl); ?>" alt="Car Image" class="car-image">
             <div class="car-info">
-            <!-- <div class="mapouter"><div class="gmap_canvas"><iframe width="820" height="560" id="gmap_canvas" src="https://maps.google.com/maps?q=636+5th+Ave%2C+New+York&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://textcaseconvert.com/"></a><br><a href="https://timenowin.net/"></a><br><style>.mapouter{position: relative;text-align: right;height: 560px;width: 820px;}</style><a href="https://www.mapembed.net">create map in google</a><style>.gmap_canvas{overflow: hidden;background: none !important;height: 560px;width: 820px;}</style></div></div> -->
-                <h2>
-                    <?php echo htmlspecialchars($car['car_name']); ?>
-                </h2>
-                <p>Provided by
-                    <?php echo htmlspecialchars($car['car_provider']); ?>
-                </p>
+                <h2><?php echo htmlspecialchars($car['car_name']); ?></h2>
+                <p>Provided by <h2>Jayamahe</h2></p>
                 <ul>
-                    <li>
-                        <?php echo htmlspecialchars($car['car_seats']); ?> seats
-                    </li>
-                    <li>
-                        <?php echo htmlspecialchars($car['car_luggages']); ?> bags
-                    </li>
+                    <li><?php echo htmlspecialchars($car['car_seats']); ?> seats</li>
+                    <li><?php echo htmlspecialchars($car['car_luggages']); ?> bags</li>
                     <li>Automatic</li>
-                    <li>Year
-                        <?php echo htmlspecialchars($car['car_year']); ?>
-                    </li>
+                    <li>Year <?php echo htmlspecialchars($car['car_year']); ?></li>
                 </ul>
                 <div class="features">
                     <span>Insurance</span>
@@ -75,16 +70,12 @@ $car = $carData[1]; // Asumsikan kita ambil data mobil pertama
         </div>
         <div class="pricing">
             <h2>Total Price</h2>
-            <p>Rp
-                <?php echo number_format($car['car_price']); ?>
-            </p>
+            <p>Rp <?php echo number_format($car['car_price']); ?></p>
             <button onclick="window.location.href='book.php'">Continue</button>
         </div>
         <div class="pickup-location">
             <h3>Pickup Location</h3>
-            <p>
-                <?php echo htmlspecialchars($car['location']); ?>
-            </p>
+            <p><?php echo htmlspecialchars($car['location']); ?></p>
             <div id="map"></div>
         </div>
     </div>
