@@ -350,3 +350,14 @@ class GatewayService:
     def check_booking_is_done(self, request, booking_id):
         result = self.rental_rpc.check_booking_is_done(booking_id)
         return 200, json.dumps(result)
+    
+
+
+    # Provider
+    @http('GET', '/provider')
+    def get_provider(self, request):
+        result = self.rental_rpc.get_provider()
+        if result:
+            return 200, json.dumps(result)
+        else:
+            return 404, json.dumps({"error": "Provider not found"})

@@ -16,7 +16,11 @@ class RentalService:
     
     @rpc
     def get_car_by_id(self, car_id):
-        return self.database.get_car_by_id(car_id)
+        result = {}
+        result['data'] = self.database.get_car_by_id(car_id)
+        result['image']= self.database.get_car_image_s3_by_id(car_id)
+        return result
+    
     
     @rpc
     def get_available_cars(self, start, end):
@@ -76,6 +80,9 @@ class RentalService:
         else:
             return {"status": "error", "message": f"Car with ID {car_id} does not exist."}
 
+
+
+
     # Driver
     @rpc
     def get_driver(self):
@@ -115,7 +122,6 @@ class RentalService:
         else:
             response.append({"status": "error", "message": "Driver ID does not exist."})
         return response
-
     
     @rpc
     def delete_driver(self, driver_id):
@@ -124,6 +130,7 @@ class RentalService:
             return {"status": "success", "message": f"Driver with ID {driver_id} has been deleted."}
         else:
             return {"status": "error", "message": f"Driver with ID {driver_id} does not exist."}
+        
         
         
     # Booking
@@ -178,3 +185,11 @@ class RentalService:
     @rpc
     def check_booking_is_done(self, booking_id):
         return self.database.check_booking_is_done(booking_id)
+    
+    
+    
+    # Provider
+    @rpc
+    def get_provider(self):
+        return self.database.get_provider()
+    

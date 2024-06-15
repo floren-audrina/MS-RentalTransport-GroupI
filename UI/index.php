@@ -1,6 +1,13 @@
 <?php
+// Set input dari search and review
+$index = 4;
+$selectedprovider = $index; 
+$selectedCar = $index; 
+$withDriver = true; 
+
+
 // Car
-$urlCar = 'http://localhost:8000/car';
+$urlCar = 'http://localhost:8000/car/' . $selectedCar;
 $chCar = curl_init($urlCar);
 curl_setopt($chCar, CURLOPT_RETURNTRANSFER, true);
 $responseForCar = curl_exec($chCar);
@@ -12,41 +19,38 @@ if ($carData === null) {
     echo "Failed to retrieve car data.";
     exit;
 }
-$cars = $carData['data'];
-
-// // Provider
-// $urlProvider = 'http://localhost:8000/provider';
-// $chProvider = curl_init($urlProvider);
-// curl_setopt($chProvider, CURLOPT_RETURNTRANSFER, true);
-// $responseForProvider = curl_exec($chProvider);
-// curl_close($chProvider);
-
-// // Decode JSON responseForProvider
-// $providerData = json_decode($responseForProvider, true);
-// if ($providerData === null) {
-//     echo "Failed to retrieve provider data.";
-//     exit;
-// }
-// $providers = $providerData['data'];
+$car = $carData['data'];
 
 
+// Provider
+$urlProvider = 'http://localhost:8000/provider';
+$chProvider = curl_init($urlProvider);
+curl_setopt($chProvider, CURLOPT_RETURNTRANSFER, true);
+$responseForProvider = curl_exec($chProvider);
+curl_close($chProvider);
 
-// Set input dari search and review
-$carIndex = 4; 
-// $providerIndex = 4;
-$withDriver = false; 
+// Decode JSON responseForProvider
+$providerData = json_decode($responseForProvider, true);
+if ($providerData === null) {
+    echo "Failed to retrieve provider data.";
+    exit;
+}
+$provider = $providerData[0];
+
+// Untuk Kebijakan Rental
+$policy = $provider['policy'];
+$policy_items = explode(', ', $policy); 
+
+// Untuk Informasi Penting
+$information = $provider['information'];
+$information_items = explode('. ', $information); 
 
 if($withDriver == true) {
     $driverPrice = 250000;  // Harga Driver Rp.250.000
 } else {
     $driverPrice = 0;
 }
-
-$car = $cars[$carIndex];
 $carImageUrl = $carData['image'];
-// $provider = $providers[$providerIndex];
-
-
 ?>
 
 <!DOCTYPE html>
@@ -61,12 +65,11 @@ $carImageUrl = $carData['image'];
 <body>
     <div class="container">
     <header>
-        <h1>Jayamahe Easy Ride Surabaya</h1>
-        <!-- <h1><?php //echo htmlspecialchars($provider['provider_name']); ?></h1> -->
+        <h1><?php echo htmlspecialchars($provider['provider_name']); ?> - <?php echo htmlspecialchars($provider['provider_city']); ?></h1>
         <!-- <p>Surabaya - Mon, 10 Jun 2024 09:00 - Wed, 12 Jun 2024 09:00</p> -->
     </header>
         <div class="car-image">
-            <img src="<?php echo htmlspecialchars($carImageUrl[$carIndex]); ?>" alt="Car Image">
+            <img src="<?php echo htmlspecialchars($carImageUrl); ?>" alt="Car Image">
         </div>
 
         <div class="car-details">
@@ -84,40 +87,49 @@ $carImageUrl = $carData['image'];
         <div class="rental-policy">
             <h3>Kebijakan Rental</h3>
             <ul>
-                <li>Penggunaan dari 00:00 hingga 23:59 per hari, hanya penggunaan di area Surabaya, Gresik, Sidoarjo, Lamongan, Mojokerto, Malang, Pasuruan, dan Probolinggo.</li>
+                <!-- <li>Penggunaan dari 00:00 hingga 23:59 per hari, hanya penggunaan di area Surabaya, Gresik, Sidoarjo, Lamongan, Mojokerto, Malang, Pasuruan, dan Probolinggo.</li>
                 <li>Apabila penggunaan melebihi wilayah di atas pengemudi akan dikenakan biaya tambahan, silahkan membayar dan konfirmasi langsung kepada penyedia untuk informasi lebih lanjut.</li>
                 <li>Kembalikan bensin seperti semula</li>
                 <li>Penuh ke penuh</li>
                 <li>Layanan darurat 24 jam</li>
-                <li>Customer Service Traveloka 24 jam</li>
+                <li>Customer Service Traveloka 24 jam</li> -->
+                <?php foreach ($policy_items as $item): ?>
+                <li><?php echo htmlspecialchars($item); ?></li>
+                <?php endforeach; ?>
+                
+
             </ul>
         </div>
 
         <div class="important-info">
             <h3>Informasi Penting</h3>
             <ul>
-                <li>Sebelum Anda pesan</li>
+                <!-- <li>Sebelum Anda pesan</li>
                 <li>Pastikan untuk membaca syarat rental.</li>
                 <li>Setelah Anda pesan</li>
                 <li>Penyedia akan menghubungi pengemudi melalui WhatsApp untuk meminta foto beberapa dokumen wajib.</li>
                 <li>Saat pengambilan</li>
                 <li>Bawa KTP, SIM A, dan dokumen-dokumen lain yang dibutuhkan oleh penyedia rental.</li>
                 <li>Saat Anda bertemu dengan staf rental, cek kondisi mobil dengan staf.</li>
-                <li>Setelah itu, baca dan tanda tangani perjanjian rental.</li>
+                <li>Setelah itu, baca dan tanda tangani perjanjian rental.</li> -->
+                <!-- <p><?php //echo nl2br(htmlspecialchars($information)); ?></p> -->
+                <?php foreach ($information_items as $item): ?>
+                <li><?php echo htmlspecialchars($item); ?></li>
+                <?php endforeach; ?>
             </ul>
         </div>
 
         <div class="pickup-location">
-            <h3>Lokasi Pengambilan (Kantor <?php //echo htmlspecialchars($provider['provider_location']); ?>)</h3>
+            <h3>Lokasi Pengambilan</h3>
             <ul>
-                <li>Kantor Rental: Gratis</li>
-                <li>Lokasi Lainnya: Dapat dikenakan biaya tambahan</li>
+                <li>Kantor Rental</li>
+                <li><?php echo htmlspecialchars($provider['provider_address']); ?></li>
             </ul>
         </div>
 
         <div class="map">
             <!-- <img src="map-placeholder.png" alt="Map Placeholder"> -->
-            <div class="mapouter"><div class="gmap_canvas"><iframe width="820" height="560" id="gmap_canvas" src="https://maps.google.com/maps?q=636+5th+Ave%2C+New+York&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://textcaseconvert.com/"></a><br><a href="https://timenowin.net/"></a><br><style>.mapouter{position: relative;text-align: right;height: 560px;width: 820px;}</style><a href="https://www.mapembed.net">create map in google</a><style>.gmap_canvas{overflow: hidden;background: none !important;height: 560px;width: 820px;}</style></div></div>
+            <?php echo $provider['map']; ?>
         </div>
 
         <div class="pickup-location">

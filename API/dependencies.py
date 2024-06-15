@@ -181,7 +181,31 @@ class DatabaseWrapper:
         except Exception as e:
             # Catch any other exceptions
             result = {"error": str(e)}
-        print(result)
+        # print(result)
+        return result
+    
+    def get_car_image_s3_by_id(self, id):
+        result = None
+        try:
+            response = self.s3.list_objects_v2(Bucket=self.BUCKET_NAME)            
+            obj = response['Contents'][id-1]
+            # print(obj)
+            key = obj['Key'].replace(" ", "+")
+            url = "https://{0}.s3.amazonaws.com/{1}".format(self.BUCKET_NAME, key)
+            result = url
+        except NoCredentialsError:
+            result = {"error": "No AWS credentials were provided."}
+        except PartialCredentialsError:
+            result = {"error": "Incomplete AWS credentials provided."}
+        except EndpointConnectionError:
+            result = {"error": "Could not connect to the specified endpoint."}
+        except ClientError as e:
+            # Handle any client error thrown by boto3
+            result = {"error": str(e)}
+        except Exception as e:
+            # Catch any other exceptions
+            result = {"error": str(e)}
+        # print(result)
         return result
 
     # Driver
@@ -366,7 +390,16 @@ class DatabaseWrapper:
         
         
         
-        
+    # Provider
+    def get_provider(self):
+        if not self.connection:
+            self.connect()
+        cursor = self.connection.cursor(dictionary=True)
+        query = "SELECT provider_name, provider_address, provider_city, provider_num, policy, information, map FROM provider"
+        cursor.execute(query)
+        provider = cursor.fetchall()
+        cursor.close()
+        return provider
 
     def __del__(self):
         self.connection.close()
