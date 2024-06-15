@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Jun 15, 2024 at 12:21 PM
--- Server version: 10.4.25-MariaDB
--- PHP Version: 8.1.10
+-- Host: 127.0.0.1
+-- Generation Time: Jun 15, 2024 at 04:17 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -34,7 +34,7 @@ CREATE TABLE `booking` (
   `with_driver` tinyint(1) NOT NULL,
   `total_harga` int(11) NOT NULL,
   `car_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `booking`
@@ -68,7 +68,7 @@ CREATE TABLE `car` (
   `car_luggages` int(11) NOT NULL,
   `car_price` int(11) NOT NULL,
   `driver_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `car`
@@ -94,7 +94,7 @@ CREATE TABLE `driver` (
   `driver_age` int(11) NOT NULL,
   `driver_phone` varchar(15) NOT NULL,
   `car_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `driver`
@@ -119,15 +119,16 @@ CREATE TABLE `provider` (
   `provider_city` varchar(50) NOT NULL,
   `provider_num` varchar(15) NOT NULL,
   `policy` text NOT NULL,
-  `information` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `information` text NOT NULL,
+  `map` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `provider`
 --
 
-INSERT INTO `provider` (`provider_name`, `provider_address`, `provider_city`, `provider_num`, `policy`, `information`) VALUES
-('Empat Roda', 'Jl. Karya Utama RT 06/RW 34 Sedan', 'Yogyakarta', '081123456789', 'Layanan Pelanggan 24/7, Asuransi Termasuk, Dapat Dikembalikan, Penggunaan dari pukul 00:00 hingga 23:59, Kembalikan bahan bakar sesuai dengan kondisi saat diterima', 'Sebelum Anda memesan: Pastikan untuk membaca persyaratan sewa. Setelah Anda memesan: Penyedia sewa akan menghubungi pengemudi melalui WhatsApp untuk meminta foto dokumen yang diperlukan. Saat penjemputan: Bawa KTP, SIM, dan dokumen lain yang diperlukan oleh penyedia sewa. Ketika Anda bertemu dengan staf penyewaan, periksa kondisi mobil bersama staf tersebut. Setelah itu, baca dan tanda tangani perjanjian sewa.');
+INSERT INTO `provider` (`provider_name`, `provider_address`, `provider_city`, `provider_num`, `policy`, `information`, `map`) VALUES
+('Empat Roda', 'Jl. Karya Utama RT 06/RW 34 Sedan', 'Yogyakarta', '081123456789', 'Layanan Pelanggan 24/7, Asuransi Termasuk, Dapat Dikembalikan, Penggunaan dari pukul 00:00 hingga 23:59, Kembalikan bahan bakar sesuai dengan kondisi saat diterima', 'Sebelum Anda memesan: Pastikan untuk membaca persyaratan sewa. Setelah Anda memesan: Penyedia sewa akan menghubungi pengemudi melalui WhatsApp untuk meminta foto dokumen yang diperlukan. Saat penjemputan: Bawa KTP, SIM, dan dokumen lain yang diperlukan oleh penyedia sewa. Ketika Anda bertemu dengan staf penyewaan, periksa kondisi mobil bersama staf tersebut. Setelah itu, baca dan tanda tangani perjanjian sewa.', '<div class=\"mapouter\"><div class=\"gmap_canvas\"><iframe width=\"820\" height=\"560\" id=\"gmap_canvas\" src=\"https://maps.google.com/maps?q=Jogja+Empat+Roda+-+Car+Rental+Jogja&t=&z=13&ie=UTF8&iwloc=&output=embed\" frameborder=\"0\" scrolling=\"no\" marginheight=\"0\" marginwidth=\"0\"></iframe><a href=\"https://textcaseconvert.com/\"></a><br><a href=\"https://timenowin.net/\"></a><br><style>.mapouter{position: relative;text-align: right;height: 560px;width: 820px;}</style><a href=\"https://www.mapembed.net\">embedding maps in website</a><style>.gmap_canvas{overflow: hidden;background: none !important;height: 560px;width: 820px;}</style></div></div>');
 
 --
 -- Indexes for dumped tables
