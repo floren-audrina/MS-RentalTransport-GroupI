@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 15, 2024 at 11:58 AM
+-- Generation Time: Jun 15, 2024 at 12:21 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -117,15 +117,17 @@ CREATE TABLE `provider` (
   `provider_name` varchar(50) NOT NULL,
   `provider_address` varchar(50) NOT NULL,
   `provider_city` varchar(50) NOT NULL,
-  `provider_num` varchar(15) NOT NULL
+  `provider_num` varchar(15) NOT NULL,
+  `policy` text NOT NULL,
+  `information` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `provider`
 --
 
-INSERT INTO `provider` (`provider_name`, `provider_address`, `provider_city`, `provider_num`) VALUES
-('Empat Roda', 'Jl. Karya Utama RT 06/RW 34 Sedan', 'Yogyakarta', '081123456789');
+INSERT INTO `provider` (`provider_name`, `provider_address`, `provider_city`, `provider_num`, `policy`, `information`) VALUES
+('Empat Roda', 'Jl. Karya Utama RT 06/RW 34 Sedan', 'Yogyakarta', '081123456789', 'Layanan Pelanggan 24/7, Asuransi Termasuk, Dapat Dikembalikan, Penggunaan dari pukul 00:00 hingga 23:59, Kembalikan bahan bakar sesuai dengan kondisi saat diterima', 'Sebelum Anda memesan: Pastikan untuk membaca persyaratan sewa. Setelah Anda memesan: Penyedia sewa akan menghubungi pengemudi melalui WhatsApp untuk meminta foto dokumen yang diperlukan. Saat penjemputan: Bawa KTP, SIM, dan dokumen lain yang diperlukan oleh penyedia sewa. Ketika Anda bertemu dengan staf penyewaan, periksa kondisi mobil bersama staf tersebut. Setelah itu, baca dan tanda tangani perjanjian sewa.');
 
 --
 -- Indexes for dumped tables
