@@ -3,75 +3,72 @@ body {
 }
 
 .container {
-    width: 80%;
-    margin: 0 auto;
+    width: 60%;
+    margin: auto;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-header {
+.car-image {
     text-align: center;
-    margin-bottom: 20px;
+}
+
+.car-image img {
+    max-width: 100%;
+    height: auto;
 }
 
 .car-details {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+    margin: 20px 0;
 }
 
-.car-image {
-    max-width: 300px;
-    border-radius: 10px;
+.car-details div {
+    flex: 1;
 }
 
-.car-info {
-    max-width: 600px;
+.car-price {
+    text-align: right;
+    font-weight: bold;
 }
 
-.car-info h2 {
-    margin-top: 0;
+.button {
+    background-color: #ff6f00;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+    display: block;
+    margin: 20px auto;
+    width: 200px;
+    text-decoration: none;
 }
 
-.car-info ul {
+.rental-policy,
+.important-info,
+.pickup-location {
+    margin: 20px 0;
+}
+
+.rental-policy ul,
+.important-info ul,
+.pickup-location ul {
     list-style-type: none;
     padding: 0;
 }
 
-.car-info li {
-    margin: 5px 0;
+.rental-policy ul li,
+.important-info ul li,
+.pickup-location ul li {
+    margin-bottom: 10px;
 }
 
-.features {
-    display: flex;
-    gap: 10px;
-}
-
-.features span {
-    background-color: #f0f0f0;
-    padding: 5px 10px;
-    border-radius: 5px;
-}
-
-.pricing {
+.map {
     text-align: center;
-    margin-bottom: 20px;
-}
-
-.pricing h2 {
-    margin-top: 0;
-}
-
-.pricing p {
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.pickup-location {
-    text-align: center;
-}
-
-#map {
-    height: 300px;
-    margin-top: 10px;
-    border: 1px solid #ccc;
+    margin: 20px 0;
 }

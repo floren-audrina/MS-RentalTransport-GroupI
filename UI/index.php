@@ -1,87 +1,116 @@
 <?php
-// URL endpoint untuk service get
-$url = 'http://localhost:8000/car'; // Sesuaikan dengan endpoint service Anda
+$urlCar = 'http://localhost:8000/car';
+// $urlProvider = 'http://localhost:8000/provider';
 
-// Buat cURL request untuk memanggil service
-$ch = curl_init($url);
+
+$ch = curl_init($urlCar);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $response = curl_exec($ch);
 curl_close($ch);
 
 // Decode JSON response
 $carData = json_decode($response, true);
-
-// Periksa apakah data berhasil diambil
 if ($carData === null) {
     echo "Failed to retrieve car data.";
     exit;
 }
-
-// Ambil detail mobil dari data JSON
 $cars = $carData['data'];
 
-// Asumsikan kita ambil data mobil pertama
-$carIndex = 1; // Ganti indeks sesuai kebutuhan
+$carIndex = 4; // Ganti indeks sesuai kebutuhan
+$withDriver = false; // Harga Driver Rp.250.000
+
+if($withDriver == true) {
+    $driverPrice = 250000;
+} else {
+    $driverPrice = 0;
+}
 $car = $cars[$carIndex];
 $imageUrl = $carData['image'];
-// var_dump($imageUrl);
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Car Rental</title>
+    <title>Car Rental Listing</title>
     <link rel="stylesheet" href="styles.css">
-</head>
 
+</head>
 <body>
     <div class="container">
-        <header>
-            <h1>Car Rental Without Driver</h1>
-            <p>Surabaya - Mon, 10 Jun 2024 09:00 - Wed, 12 Jun 2024 09:00</p>
-        </header>
+    <header>
+        <h1>Jayamahe Easy Ride Surabaya</h1>
+        <!-- <p>Surabaya - Mon, 10 Jun 2024 09:00 - Wed, 12 Jun 2024 09:00</p> -->
+    </header>
+        <div class="car-image">
+            <img src="<?php echo htmlspecialchars($imageUrl[$carIndex]); ?>" alt="Car Image">
+        </div>
+
         <div class="car-details">
-            <img src="<?php echo htmlspecialchars($imageUrl[$carIndex]); ?>" alt="Car Image" class="car-image">
-            <div class="car-info">
-                <h2><?php echo htmlspecialchars($car['car_name']); ?></h2>
-                <p>Provided by <h2>Jayamahe</h2></p>
-                <ul>
-                    <li><?php echo htmlspecialchars($car['car_seats']); ?> seats</li>
-                    <li><?php echo htmlspecialchars($car['car_luggages']); ?> bags</li>
-                    <li>Automatic</li>
-                    <li>Year <?php echo htmlspecialchars($car['car_year']); ?></li>
-                </ul>
-                <div class="features">
-                    <span>Insurance</span>
-                    <span>No Refundable Deposit</span>
-                    <span>Easy Verification</span>
-                </div>
-                <h3>Rental Policies</h3>
-                <ul>
-                    <li>Return with the same fuel level</li>
-                    <li>24 hours usage per day</li>
-                </ul>
-                <h3>Easy Verification</h3>
-                <p>Driver only needs to share a photo of the driver's license and ID card.</p>
+            <div>
+                <h2><?php echo htmlspecialchars($car['car_brand']) . ' ' . htmlspecialchars($car['car_name']); ?></h2>
+                <p><?php echo htmlspecialchars($car['car_seats']); ?> kursi, <?php echo htmlspecialchars($car['car_luggages']); ?> bagasi</p>
+                <p><?php echo htmlspecialchars($car['car_year']); ?> atau setelahnya</p>
+                <p><?php echo htmlspecialchars($car['car_transmission']); ?></p>
+            </div>
+            <div class="car-price">
+                <h2>Rp <?php echo number_format(htmlspecialchars($car['car_price']), 0, ',', '.'); ?></h2>
             </div>
         </div>
-        <div class="pricing">
-            <h2>Total Price</h2>
-            <p>Rp <?php echo number_format($car['car_price']); ?></p>
-            <button onclick="window.location.href='book.php'">Continue</button>
-        </div>
-        <div class="pickup-location">
-            <h3>Pickup Location</h3>
-            <p><?php echo htmlspecialchars($car['location']); ?></p>
-            <div id="map"></div>
-        </div>
-    </div>
-    <script>
-        // You can add your map initialization code here if you use any map service like Google Maps
-    </script>
-</body>
 
+        <div class="rental-policy">
+            <h3>Kebijakan Rental</h3>
+            <ul>
+                <li>Penggunaan dari 00:00 hingga 23:59 per hari, hanya penggunaan di area Surabaya, Gresik, Sidoarjo, Lamongan, Mojokerto, Malang, Pasuruan, dan Probolinggo.</li>
+                <li>Apabila penggunaan melebihi wilayah di atas pengemudi akan dikenakan biaya tambahan, silahkan membayar dan konfirmasi langsung kepada penyedia untuk informasi lebih lanjut.</li>
+                <li>Kembalikan bensin seperti semula</li>
+                <li>Penuh ke penuh</li>
+                <li>Layanan darurat 24 jam</li>
+                <li>Customer Service Traveloka 24 jam</li>
+            </ul>
+        </div>
+
+        <div class="important-info">
+            <h3>Informasi Penting</h3>
+            <ul>
+                <li>Sebelum Anda pesan</li>
+                <li>Pastikan untuk membaca syarat rental.</li>
+                <li>Setelah Anda pesan</li>
+                <li>Penyedia akan menghubungi pengemudi melalui WhatsApp untuk meminta foto beberapa dokumen wajib.</li>
+                <li>Saat pengambilan</li>
+                <li>Bawa KTP, SIM A, dan dokumen-dokumen lain yang dibutuhkan oleh penyedia rental.</li>
+                <li>Saat Anda bertemu dengan staf rental, cek kondisi mobil dengan staf.</li>
+                <li>Setelah itu, baca dan tanda tangani perjanjian rental.</li>
+            </ul>
+        </div>
+
+        <div class="pickup-location">
+            <h3>Lokasi Pengambilan (Kantor )</h3>
+            <ul>
+                <li>Kantor Rental: Gratis</li>
+                <li>Lokasi Lainnya: Dapat dikenakan biaya tambahan</li>
+            </ul>
+        </div>
+
+        <div class="map">
+            <!-- <img src="map-placeholder.png" alt="Map Placeholder"> -->
+            <div class="mapouter"><div class="gmap_canvas"><iframe width="820" height="560" id="gmap_canvas" src="https://maps.google.com/maps?q=636+5th+Ave%2C+New+York&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://textcaseconvert.com/"></a><br><a href="https://timenowin.net/"></a><br><style>.mapouter{position: relative;text-align: right;height: 560px;width: 820px;}</style><a href="https://www.mapembed.net">create map in google</a><style>.gmap_canvas{overflow: hidden;background: none !important;height: 560px;width: 820px;}</style></div></div>
+        </div>
+
+        <div class="pickup-location">
+            <h3>Harga Total</h3>
+            <ul>
+                <li>Mobil: Rp. <?php echo number_format(htmlspecialchars($car['car_price']), 0, ',', '.'); ?></li>
+                <li>Driver: Rp. <?php echo number_format(htmlspecialchars($driverPrice), 0, ',', '.'); ?></li>
+            </ul>
+            <div class="car-price">
+                <h2>Rp <?php echo number_format(htmlspecialchars($car['car_price'] + $driverPrice), 0, ',', '.'); ?></h2>
+            </div>
+        </div>
+
+        <a href="#" class="button">Book</a>
+    </div>
+
+</body>
 </html>
