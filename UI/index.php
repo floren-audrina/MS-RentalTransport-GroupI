@@ -21,10 +21,10 @@ if ($carData === null) {
 $cars = $carData['data'];
 
 // Asumsikan kita ambil data mobil pertama
-$carIndex = 0; // Ganti indeks sesuai kebutuhan
+$carIndex = 1; // Ganti indeks sesuai kebutuhan
 $car = $cars[$carIndex];
-$imageUrl = $car['image'];
-var_dump($imageUrl);
+$imageUrl = $carData['image'];
+// var_dump($imageUrl);
 ?>
 
 <!DOCTYPE html>
@@ -44,7 +44,7 @@ var_dump($imageUrl);
             <p>Surabaya - Mon, 10 Jun 2024 09:00 - Wed, 12 Jun 2024 09:00</p>
         </header>
         <div class="car-details">
-            <img src="<?php echo htmlspecialchars($imageUrl); ?>" alt="Car Image" class="car-image">
+            <img src="<?php echo htmlspecialchars($imageUrl[$carIndex]); ?>" alt="Car Image" class="car-image">
             <div class="car-info">
                 <h2><?php echo htmlspecialchars($car['car_name']); ?></h2>
                 <p>Provided by <h2>Jayamahe</h2></p>
