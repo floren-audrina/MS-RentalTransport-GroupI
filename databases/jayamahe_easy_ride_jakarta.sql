@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jun 08, 2024 at 11:36 AM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Host: localhost
+-- Generation Time: Jun 15, 2024 at 11:58 AM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -34,7 +34,7 @@ CREATE TABLE `booking` (
   `with_driver` tinyint(1) NOT NULL,
   `total_harga` int(11) NOT NULL,
   `car_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `booking`
@@ -64,7 +64,7 @@ CREATE TABLE `car` (
   `car_luggages` int(11) NOT NULL,
   `car_price` int(11) NOT NULL,
   `driver_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `car`
@@ -93,7 +93,7 @@ CREATE TABLE `driver` (
   `driver_age` int(11) NOT NULL,
   `driver_phone` varchar(15) NOT NULL,
   `car_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `driver`
@@ -105,6 +105,26 @@ INSERT INTO `driver` (`driver_id`, `driver_name`, `driver_gender`, `driver_age`,
 (3, 'Rudi Hartono', 'M', 32, '081234567897', 3),
 (4, 'Siti Nurhaliza', 'F', 29, '081234567898', 4),
 (5, 'Yusuf Ibrahim', 'M', 48, '081234567899', 5);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `provider`
+--
+
+CREATE TABLE `provider` (
+  `provider_name` varchar(50) NOT NULL,
+  `provider_address` varchar(50) NOT NULL,
+  `provider_city` varchar(50) NOT NULL,
+  `provider_num` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `provider`
+--
+
+INSERT INTO `provider` (`provider_name`, `provider_address`, `provider_city`, `provider_num`) VALUES
+('Jayamahe Easy Ride', 'Jl. Kebon Sirih No.45', 'Jakarta', '085112233475');
 
 --
 -- Indexes for dumped tables

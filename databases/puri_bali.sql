@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jun 10, 2024 at 02:54 AM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Host: localhost
+-- Generation Time: Jun 15, 2024 at 11:59 AM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -34,7 +34,7 @@ CREATE TABLE `booking` (
   `with_driver` tinyint(1) NOT NULL,
   `total_harga` int(11) NOT NULL,
   `car_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `booking`
@@ -48,7 +48,6 @@ INSERT INTO `booking` (`booking_id`, `tanggal_mulai`, `tanggal_selesai`, `with_d
 (5, '2024-06-30', '2024-07-05', 1, 4800000, 5),
 (6, '2024-07-07', '2024-07-08', 0, 2200000, 6),
 (7, '2024-07-14', '2024-07-16', 1, 1500000, 7);
-
 
 -- --------------------------------------------------------
 
@@ -67,7 +66,7 @@ CREATE TABLE `car` (
   `car_luggages` int(11) NOT NULL,
   `car_price` int(11) NOT NULL,
   `driver_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `car`
@@ -95,7 +94,7 @@ CREATE TABLE `driver` (
   `driver_age` int(11) NOT NULL,
   `driver_phone` varchar(15) NOT NULL,
   `car_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `driver`
@@ -109,6 +108,26 @@ INSERT INTO `driver` (`driver_id`, `driver_name`, `driver_gender`, `driver_age`,
 (5, 'Ong Didi', 'M', 35, '081000000005', 5),
 (6, 'Ribkah Kristiani', 'F', 36, '081000000006', 6),
 (7, 'Vivin Dwi Fitri Dika', 'F', 37, '081000000007', 7);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `provider`
+--
+
+CREATE TABLE `provider` (
+  `provider_name` varchar(50) NOT NULL,
+  `provider_address` varchar(50) NOT NULL,
+  `provider_city` varchar(50) NOT NULL,
+  `provider_num` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `provider`
+--
+
+INSERT INTO `provider` (`provider_name`, `provider_address`, `provider_city`, `provider_num`) VALUES
+('Puri', 'Jl. Raya Seminyak No.18', 'Bali', '088351289777');
 
 --
 -- Indexes for dumped tables
@@ -143,19 +162,19 @@ ALTER TABLE `driver`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `car`
 --
 ALTER TABLE `car`
-  MODIFY `car_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `car_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `driver`
 --
 ALTER TABLE `driver`
-  MODIFY `driver_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `driver_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables

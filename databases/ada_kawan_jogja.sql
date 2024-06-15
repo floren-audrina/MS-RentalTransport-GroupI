@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jun 10, 2024 at 09:07 AM
+-- Host: localhost
+-- Generation Time: Jun 15, 2024 at 11:57 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -105,6 +105,26 @@ INSERT INTO `driver` (`driver_id`, `driver_name`, `driver_gender`, `driver_age`,
 (3, 'Putri Namira', 'F', 32, '081293400221', 3),
 (4, 'Susan Wijaya', 'F', 29, '085423105577', 4),
 (5, 'Fendi Arya', 'M', 55, '088123456718', 5);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `provider`
+--
+
+CREATE TABLE `provider` (
+  `provider_name` varchar(50) NOT NULL,
+  `provider_address` varchar(50) NOT NULL,
+  `provider_city` varchar(50) NOT NULL,
+  `provider_num` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `provider`
+--
+
+INSERT INTO `provider` (`provider_name`, `provider_address`, `provider_city`, `provider_num`) VALUES
+('Ada Kawan', 'Jl. Gowongan Lor No.6', 'Yogyakarta', '081019283746');
 
 --
 -- Indexes for dumped tables
