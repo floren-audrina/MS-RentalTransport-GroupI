@@ -1,31 +1,52 @@
 <?php
+// Car
 $urlCar = 'http://localhost:8000/car';
-// $urlProvider = 'http://localhost:8000/provider';
+$chCar = curl_init($urlCar);
+curl_setopt($chCar, CURLOPT_RETURNTRANSFER, true);
+$responseForCar = curl_exec($chCar);
+curl_close($chCar);
 
-
-$ch = curl_init($urlCar);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-$response = curl_exec($ch);
-curl_close($ch);
-
-// Decode JSON response
-$carData = json_decode($response, true);
+// Decode JSON responseForCar
+$carData = json_decode($responseForCar, true);
 if ($carData === null) {
     echo "Failed to retrieve car data.";
     exit;
 }
 $cars = $carData['data'];
 
-$carIndex = 4; // Ganti indeks sesuai kebutuhan
-$withDriver = false; // Harga Driver Rp.250.000
+// // Provider
+// $urlProvider = 'http://localhost:8000/provider';
+// $chProvider = curl_init($urlProvider);
+// curl_setopt($chProvider, CURLOPT_RETURNTRANSFER, true);
+// $responseForProvider = curl_exec($chProvider);
+// curl_close($chProvider);
+
+// // Decode JSON responseForProvider
+// $providerData = json_decode($responseForProvider, true);
+// if ($providerData === null) {
+//     echo "Failed to retrieve provider data.";
+//     exit;
+// }
+// $providers = $providerData['data'];
+
+
+
+// Set input dari search and review
+$carIndex = 4; 
+// $providerIndex = 4;
+$withDriver = false; 
 
 if($withDriver == true) {
-    $driverPrice = 250000;
+    $driverPrice = 250000;  // Harga Driver Rp.250.000
 } else {
     $driverPrice = 0;
 }
+
 $car = $cars[$carIndex];
-$imageUrl = $carData['image'];
+$carImageUrl = $carData['image'];
+// $provider = $providers[$providerIndex];
+
+
 ?>
 
 <!DOCTYPE html>
@@ -33,7 +54,7 @@ $imageUrl = $carData['image'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Car Rental Listing</title>
+    <title>Car Rental</title>
     <link rel="stylesheet" href="styles.css">
 
 </head>
@@ -41,10 +62,11 @@ $imageUrl = $carData['image'];
     <div class="container">
     <header>
         <h1>Jayamahe Easy Ride Surabaya</h1>
+        <!-- <h1><?php //echo htmlspecialchars($provider['provider_name']); ?></h1> -->
         <!-- <p>Surabaya - Mon, 10 Jun 2024 09:00 - Wed, 12 Jun 2024 09:00</p> -->
     </header>
         <div class="car-image">
-            <img src="<?php echo htmlspecialchars($imageUrl[$carIndex]); ?>" alt="Car Image">
+            <img src="<?php echo htmlspecialchars($carImageUrl[$carIndex]); ?>" alt="Car Image">
         </div>
 
         <div class="car-details">
@@ -86,7 +108,7 @@ $imageUrl = $carData['image'];
         </div>
 
         <div class="pickup-location">
-            <h3>Lokasi Pengambilan (Kantor )</h3>
+            <h3>Lokasi Pengambilan (Kantor <?php //echo htmlspecialchars($provider['provider_location']); ?>)</h3>
             <ul>
                 <li>Kantor Rental: Gratis</li>
                 <li>Lokasi Lainnya: Dapat dikenakan biaya tambahan</li>
