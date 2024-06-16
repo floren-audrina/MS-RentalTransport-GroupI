@@ -11,12 +11,20 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+.image-and-review {
+    margin-top: 70px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 80px;
+}
+
 .car-image {
     text-align: center;
 }
 
 .car-image img {
-    max-width: 100%;
+    max-width: 70%;
     height: auto;
 }
 

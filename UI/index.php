@@ -1,9 +1,18 @@
 <?php
-// Set input dari search and review
+// Set input dari search
 $index = 4;
 $selectedprovider = $index; 
 $selectedCar = $index; 
-$withDriver = true; 
+$withDriver = false; 
+
+// Set input dari review
+$star = 8.9;
+$totalReviews = 12;
+$detailReview = [
+    'Ketepatan Waktu Staf (10)',
+    'Kebersihan Mobil (9)',
+    'Kemudahan Proses Pengambilan & Pengembalian (8)'
+];
 
 
 // Car
@@ -12,8 +21,6 @@ $chCar = curl_init($urlCar);
 curl_setopt($chCar, CURLOPT_RETURNTRANSFER, true);
 $responseForCar = curl_exec($chCar);
 curl_close($chCar);
-
-// Decode JSON responseForCar
 $carData = json_decode($responseForCar, true);
 if ($carData === null) {
     echo "Failed to retrieve car data.";
@@ -21,15 +28,12 @@ if ($carData === null) {
 }
 $car = $carData['data'];
 
-
 // Provider
 $urlProvider = 'http://localhost:8000/provider';
 $chProvider = curl_init($urlProvider);
 curl_setopt($chProvider, CURLOPT_RETURNTRANSFER, true);
 $responseForProvider = curl_exec($chProvider);
 curl_close($chProvider);
-
-// Decode JSON responseForProvider
 $providerData = json_decode($responseForProvider, true);
 if ($providerData === null) {
     echo "Failed to retrieve provider data.";
@@ -60,16 +64,36 @@ $carImageUrl = $carData['image'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Car Rental</title>
     <link rel="stylesheet" href="styles.css">
-
 </head>
 <body>
     <div class="container">
-    <header>
-        <h1><?php echo htmlspecialchars($provider['provider_name']); ?> - <?php echo htmlspecialchars($provider['provider_city']); ?></h1>
-        <!-- <p>Surabaya - Mon, 10 Jun 2024 09:00 - Wed, 12 Jun 2024 09:00</p> -->
-    </header>
-        <div class="car-image">
-            <img src="<?php echo htmlspecialchars($carImageUrl); ?>" alt="Car Image">
+        <header>
+            <h1><?php echo htmlspecialchars($provider['provider_name']); ?> - <?php echo htmlspecialchars($provider['provider_city']); ?></h1>
+        </header>
+
+        <div class="image-and-review">
+            <div class="car-image">
+                <img src="<?php echo htmlspecialchars($carImageUrl); ?>" alt="Car Image">
+            </div>
+
+            <div class="provider-reviews">
+                <!-- <img src="path_to_provider_logo.png" alt="Provider Logo"> -->
+                <h2>Review</h2>
+                <div class="rating">
+                    <h3><?php echo htmlspecialchars($star); ?></h3>
+                    <p>(<?php echo htmlspecialchars($totalReviews); ?> reviews)</p>
+                </div>
+                <h4>Yang disukai traveler</h4>
+                <ul>
+                    <!-- <li>Ketepatan Waktu Staf (10)</li>
+                    <li>Kebersihan Mobil (9)</li>
+                    <li>Kemudahan Proses Pengambilan & Pengembalian (8)</li> -->
+                    <?php foreach ($detailReview as $review): ?>
+                    <li><?php echo htmlspecialchars($review); ?></li>
+                    <?php endforeach; ?>
+                </ul>
+                <!-- <p>Review lengkap penyedia ini dapat dilihat via Traveloka App.</p> -->
+            </div>
         </div>
 
         <div class="car-details">
@@ -87,32 +111,15 @@ $carImageUrl = $carData['image'];
         <div class="rental-policy">
             <h3>Kebijakan Rental</h3>
             <ul>
-                <!-- <li>Penggunaan dari 00:00 hingga 23:59 per hari, hanya penggunaan di area Surabaya, Gresik, Sidoarjo, Lamongan, Mojokerto, Malang, Pasuruan, dan Probolinggo.</li>
-                <li>Apabila penggunaan melebihi wilayah di atas pengemudi akan dikenakan biaya tambahan, silahkan membayar dan konfirmasi langsung kepada penyedia untuk informasi lebih lanjut.</li>
-                <li>Kembalikan bensin seperti semula</li>
-                <li>Penuh ke penuh</li>
-                <li>Layanan darurat 24 jam</li>
-                <li>Customer Service Traveloka 24 jam</li> -->
                 <?php foreach ($policy_items as $item): ?>
-                <li><?php echo htmlspecialchars($item); ?></li>
+                    <li><?php echo htmlspecialchars($item); ?></li>
                 <?php endforeach; ?>
-                
-
             </ul>
         </div>
 
         <div class="important-info">
             <h3>Informasi Penting</h3>
             <ul>
-                <!-- <li>Sebelum Anda pesan</li>
-                <li>Pastikan untuk membaca syarat rental.</li>
-                <li>Setelah Anda pesan</li>
-                <li>Penyedia akan menghubungi pengemudi melalui WhatsApp untuk meminta foto beberapa dokumen wajib.</li>
-                <li>Saat pengambilan</li>
-                <li>Bawa KTP, SIM A, dan dokumen-dokumen lain yang dibutuhkan oleh penyedia rental.</li>
-                <li>Saat Anda bertemu dengan staf rental, cek kondisi mobil dengan staf.</li>
-                <li>Setelah itu, baca dan tanda tangani perjanjian rental.</li> -->
-                <!-- <p><?php //echo nl2br(htmlspecialchars($information)); ?></p> -->
                 <?php foreach ($information_items as $item): ?>
                 <li><?php echo htmlspecialchars($item); ?></li>
                 <?php endforeach; ?>
@@ -128,7 +135,6 @@ $carImageUrl = $carData['image'];
         </div>
 
         <div class="map">
-            <!-- <img src="map-placeholder.png" alt="Map Placeholder"> -->
             <?php echo $provider['map']; ?>
         </div>
 
@@ -145,6 +151,5 @@ $carImageUrl = $carData['image'];
 
         <a href="#" class="button">Book</a>
     </div>
-
 </body>
 </html>
