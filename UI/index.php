@@ -3,7 +3,7 @@
 $index = 4;
 $selectedprovider = $index; 
 $selectedCar = $index; 
-$withDriver = false; 
+$withDriver = true; 
 
 // Set input dari review
 $star = 8.9;
@@ -80,9 +80,8 @@ $carImageUrl = $carData['image'];
                 <!-- <img src="path_to_provider_logo.png" alt="Provider Logo"> -->
                 <h2>Review</h2>
                 <div class="rating">
-                    <h3><?php echo htmlspecialchars($star); ?></h3>
-                    <p>(<?php echo htmlspecialchars($totalReviews); ?> reviews)</p>
-                </div>
+                    <h3><?php echo htmlspecialchars($star); ?> / 10 </h3>
+                </div><p>(<?php echo htmlspecialchars($totalReviews); ?> reviews)</p>
                 <h4>Yang disukai traveler</h4>
                 <ul>
                     <!-- <li>Ketepatan Waktu Staf (10)</li>

@@ -19,12 +19,37 @@ body {
     margin-bottom: 80px;
 }
 
+.rating {
+    color: rgb(13, 145, 229);
+}
+
+.provider-reviews {
+    padding: 0 25px 25px 25px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    border-radius: 5px;
+    /* border-left: 4px solid rgb(49, 212, 212); */
+    /* border-style: solid; */
+}
+
+.provider-reviews ul {
+    padding-inline-start: 0;
+}
+
+.provider-reviews ul li {
+    padding: 5px;
+    color: rgb(53, 110, 102);
+    background-color: rgb(224, 250, 232);
+    list-style-type: none;
+    margin-bottom: 10px;
+}
+
 .car-image {
     text-align: center;
 }
 
 .car-image img {
-    max-width: 70%;
+    max-width: 55%;
     height: auto;
 }
 
@@ -64,7 +89,10 @@ body {
 }
 
 .rental-policy ul,
-.important-info ul,
+.important-info ul {
+    padding: 0 0 0 25px;
+}
+
 .pickup-location ul {
     list-style-type: none;
     padding: 0;
