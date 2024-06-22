@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 15, 2024 at 11:59 AM
+-- Generation Time: Jun 22, 2024 at 08:08 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -119,15 +119,18 @@ CREATE TABLE `provider` (
   `provider_name` varchar(50) NOT NULL,
   `provider_address` varchar(50) NOT NULL,
   `provider_city` varchar(50) NOT NULL,
-  `provider_num` varchar(15) NOT NULL
+  `provider_num` varchar(15) NOT NULL,
+  `policy` text NOT NULL,
+  `information` text NOT NULL,
+  `map` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `provider`
 --
 
-INSERT INTO `provider` (`provider_name`, `provider_address`, `provider_city`, `provider_num`) VALUES
-('Puri', 'Jl. Raya Seminyak No.18', 'Bali', '088351289777');
+INSERT INTO `provider` (`provider_name`, `provider_address`, `provider_city`, `provider_num`, `policy`, `information`, `map`) VALUES
+('Puri', 'Jl. Raya Seminyak No.18', 'Bali', '088351289777', 'Setiap mobil yang disewa harus kembali dalam kondisi baik seperti saat diserahkan. Deposit akan ditentukan berdasarkan jenis dan lama penyewaan mobil. Pengemudi diharapkan mengisi bahan bakar sebelum mengembalikan kendaraan. Kami bertanggung jawab atas perawatan dan kondisi mobil selama disewa.', 'Jelajahi kemudahan dan keamanan dalam menyewa mobil bersama kami. Kami menyediakan armada mobil terbaru dengan berbagai pilihan, mulai dari sedan hingga mobil keluarga. Layanan pelanggan kami siap membantu Anda 24/7 untuk memastikan pengalaman rental yang mulus dan tak terlupakan.', '<div class=\"mapouter\"><div class=\"gmap_canvas\"><iframe width=\"820\" height=\"560\" id=\"gmap_canvas\" src=\"https://maps.google.com/maps?q=Jl.+Raya+Seminyak+No.18&t=&z=13&ie=UTF8&iwloc=&output=embed\" frameborder=\"0\" scrolling=\"no\" marginheight=\"0\" marginwidth=\"0\"></iframe><a href=\"https://online.stopwatch-timer.net/\">timer for kids</a><br><a href=\"https://textcaseconvert.com/\"></a><br><style>.mapouter{position: relative;text-align: right;height: 560px;width: 820px;}</style><a href=\"https://www.mapembed.net\">google map for my website</a><style>.gmap_canvas{overflow: hidden;background: none !important;height: 560px;width: 820px;}</style></div></div>');
 
 --
 -- Indexes for dumped tables

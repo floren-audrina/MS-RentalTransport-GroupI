@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 15, 2024 at 11:57 AM
+-- Generation Time: Jun 22, 2024 at 08:06 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -116,15 +116,18 @@ CREATE TABLE `provider` (
   `provider_name` varchar(50) NOT NULL,
   `provider_address` varchar(50) NOT NULL,
   `provider_city` varchar(50) NOT NULL,
-  `provider_num` varchar(15) NOT NULL
+  `provider_num` varchar(15) NOT NULL,
+  `policy` text NOT NULL,
+  `information` text NOT NULL,
+  `map` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `provider`
 --
 
-INSERT INTO `provider` (`provider_name`, `provider_address`, `provider_city`, `provider_num`) VALUES
-('Ada Kawan', 'Jl. Gowongan Lor No.6', 'Yogyakarta', '081019283746');
+INSERT INTO `provider` (`provider_name`, `provider_address`, `provider_city`, `provider_num`, `policy`, `information`, `map`) VALUES
+('Ada Kawan', 'Jl. Gowongan Lor No.6', 'Yogyakarta', '081019283746', 'Deposit setengah harga total diperlukan untuk sewa mobil. Bahan bakar harus diisi ulang sebelum pengembalian. Dilarang merokok di dalam kendaraan. Biaya keterlambatan Rp 50.000 per jam.', 'Kami menawarkan berbagai jenis kendaraan, termasuk sedan dan SUV. Semua mobil diasuransikan. Bantuan darurat 24/7 tersedia. Pesan online dan ambil di lokasi kami.', '<div class=\"mapouter\"><div class=\"gmap_canvas\"><iframe width=\"820\" height=\"560\" id=\"gmap_canvas\" src=\"https://maps.google.com/maps?q=Jl.+Gowongan+Lor+No.6&t=&z=13&ie=UTF8&iwloc=&output=embed\" frameborder=\"0\" scrolling=\"no\" marginheight=\"0\" marginwidth=\"0\"></iframe><a href=\"https://online.stopwatch-timer.net/\">timer for kids</a><br><a href=\"https://textcaseconvert.com/\"></a><br><style>.mapouter{position: relative;text-align: right;height: 560px;width: 820px;}</style><a href=\"https://www.mapembed.net\">google maps embed</a><style>.gmap_canvas{overflow: hidden;background: none !important;height: 560px;width: 820px;}</style></div></div>');
 
 --
 -- Indexes for dumped tables

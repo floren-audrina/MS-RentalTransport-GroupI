@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 15, 2024 at 11:58 AM
+-- Generation Time: Jun 22, 2024 at 08:07 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -116,15 +116,18 @@ CREATE TABLE `provider` (
   `provider_name` varchar(50) NOT NULL,
   `provider_address` varchar(50) NOT NULL,
   `provider_city` varchar(50) NOT NULL,
-  `provider_num` varchar(15) NOT NULL
+  `provider_num` varchar(15) NOT NULL,
+  `policy` text NOT NULL,
+  `information` text NOT NULL,
+  `map` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `provider`
 --
 
-INSERT INTO `provider` (`provider_name`, `provider_address`, `provider_city`, `provider_num`) VALUES
-('Jayamahe Easy Ride', 'Jl. Kebon Sirih No.45', 'Jakarta', '085112233475');
+INSERT INTO `provider` (`provider_name`, `provider_address`, `provider_city`, `provider_num`, `policy`, `information`, `map`) VALUES
+('Jayamahe Easy Ride', 'Jl. Kebon Sirih No.45', 'Jakarta', '085112233475', 'Kami menawarkan opsi deposit fleksibel, mulai dari Rp 50.000, tergantung pada jenis mobil yang disewa. Pengemudi diharapkan mengisi ulang bahan bakar sebelum pengembalian. Setiap kerusakan atau kehilangan akan dievaluasi berdasarkan kondisi mobil saat disewa.', 'Dapatkan pengalaman menyewa mobil yang nyaman dengan kami. Kami menyediakan mobil dari berbagai merek terkemuka dengan harga yang kompetitif. Layanan pelanggan kami siap membantu Anda dengan segala kebutuhan selama masa penyewaan.', '<div class=\"mapouter\"><div class=\"gmap_canvas\"><iframe width=\"820\" height=\"560\" id=\"gmap_canvas\" src=\"https://maps.google.com/maps?q=Jl.+Kebon+Sirih+No.45&t=&z=13&ie=UTF8&iwloc=&output=embed\" frameborder=\"0\" scrolling=\"no\" marginheight=\"0\" marginwidth=\"0\"></iframe><a href=\"https://online.stopwatch-timer.net/\">timer for kids</a><br><a href=\"https://textcaseconvert.com/\"></a><br><style>.mapouter{position: relative;text-align: right;height: 560px;width: 820px;}</style><a href=\"https://www.mapembed.net\">custom google maps embed</a><style>.gmap_canvas{overflow: hidden;background: none !important;height: 560px;width: 820px;}</style></div></div>');
 
 --
 -- Indexes for dumped tables
