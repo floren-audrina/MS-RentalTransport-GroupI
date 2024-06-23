@@ -388,6 +388,20 @@ class DatabaseWrapper:
         else:
             return {"status": "in_progress", "message": "Booking is in progress."}
         
+    def delete_booking(self, id):
+        cursor = self.connection.cursor(dictionary=True)
+        try:
+            sql = "DELETE FROM booking WHERE booking_id = {}".format(id)
+            cursor.execute(sql)
+            self.connection.commit()
+            cursor.close()
+            return True
+        except Exception as e:
+            print("An error occurred:", e)
+            self.connection.rollback()
+            cursor.close()
+            return False
+        
         
         
     # Provider

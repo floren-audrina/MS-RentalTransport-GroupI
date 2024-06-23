@@ -254,7 +254,6 @@ class GatewayService:
         else:
             return 200, json.dumps({"message": "Driver deleted successfully"})
     
-
     # Booking
     @http('GET', '/booking')
     def get_booking(self, request):
@@ -351,6 +350,17 @@ class GatewayService:
         result = self.rental_rpc.check_booking_is_done(booking_id)
         return 200, json.dumps(result)
     
+    @http('DELETE', '/booking_delete/<int:booking_id>')
+    def delete_car(self, request, booking_id):
+        if not isinstance(booking_id, int) or booking_id <= 0:
+            return 400, json.dumps({"error": "Invalid car ID"})
+        
+        result = self.rental_rpc.delete_car(booking_id)
+    
+        if result.get("status") == "error":
+            return 404, json.dumps({"error": result.get("message")})
+        else:
+            return 200, json.dumps({"message": "Booking deleted successfully"})
 
 
     # Provider
