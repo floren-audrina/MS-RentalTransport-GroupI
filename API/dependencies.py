@@ -400,6 +400,53 @@ class DatabaseWrapper:
         provider = cursor.fetchall()
         cursor.close()
         return provider
+    
+    def edit_provider(self, provider_name=None, provider_address=None, provider_city=None, provider_num=None, policy=None, information=None, map=None):
+        cursor = self.connection.cursor(dictionary=True)
+        try:
+            updates = []
+            params = []
+
+            # Add provided fields to updates and params
+            if provider_name is not None:
+                updates.append("provider_name = %s")
+                params.append(provider_name)
+            if provider_address is not None:
+                updates.append("provider_address = %s")
+                params.append(provider_address)
+            if provider_city is not None:
+                updates.append("provider_city = %s")
+                params.append(provider_city)
+            if provider_num is not None:
+                updates.append("provider_num = %s")
+                params.append(provider_num)
+            if policy is not None:
+                updates.append("policy = %s")
+                params.append(policy)
+            if information is not None:
+                updates.append("information = %s")
+                params.append(information)
+            if map is not None:
+                updates.append("map = %s")
+                params.append(map)
+            
+            # If no updates, return False
+            if not updates:
+                return False
+
+            # Join updates list into a single string
+            sql = "UPDATE provider SET " + ", ".join(updates)
+
+            # Execute the SQL query with the parameters
+            cursor.execute(sql, tuple(params))
+            self.connection.commit()
+            cursor.close()
+            return True
+        except Exception as e:
+            print("An error occurred:", e)
+            self.connection.rollback()
+            cursor.close()
+            return False
 
     def __del__(self):
         self.connection.close()

@@ -361,3 +361,34 @@ class GatewayService:
             return 200, json.dumps(result)
         else:
             return 404, json.dumps({"error": "Provider not found"})
+        
+    @http('PUT', '/provider_edit')
+    def edit_provider_http(self, request):
+        req = request.get_data(as_text=True)
+        try:
+            provider_details = json.loads(req)
+        except json.JSONDecodeError:
+            return 400, json.dumps({"error": "Invalid JSON format"})
+
+        if not isinstance(provider_details, dict):
+            return 400, json.dumps({"error": "Expected a dictionary of provider details"})
+
+        # Extract provider details
+        provider_name = provider_details.get('provider_name')
+        provider_address = provider_details.get('provider_address')
+        provider_city = provider_details.get('provider_city')
+        provider_num = provider_details.get('provider_num')
+        policy = provider_details.get('policy')
+        information = provider_details.get('information')
+        map = provider_details.get('map')
+
+        # Validate types
+        if not all(isinstance(field, str) for field in [provider_name, provider_address, provider_city, provider_num, policy, information, map] if field is not None):
+            return 400, json.dumps({"error": "provider_name, provider_address, provider_city, policy, information, and map must be strings"})
+
+        # If all validated, call the edit_provider method
+        success = self.edit_provider(provider_name, provider_address, provider_city, provider_num, policy, information, map)
+        if success:
+            return 200, json.dumps({"message": "Provider updated successfully"})
+        else:
+            return 500, json.dumps({"error": "Failed to update provider"})
