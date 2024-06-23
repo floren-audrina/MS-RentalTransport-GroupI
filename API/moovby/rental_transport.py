@@ -1,9 +1,9 @@
 from nameko.rpc import rpc
 
-import dependencies as dependencies
+import API.moovby.dependencies as dependencies
 
 class RentalService:
-    name = 'rental_service'
+    name = 'moovby_driverless_jakarta'
     database = dependencies.Database()
     
     # Car

@@ -6,8 +6,8 @@ from datetime import datetime, date
 
 
 class GatewayService:
-    name = 'gateway'
-    rental_rpc = RpcProxy('rental_service')
+    name = 'gateway2'
+    rental_rpc = RpcProxy('empat_roda_jogja')
 
     # Car
     @http('GET', '/car')

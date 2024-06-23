@@ -1,9 +1,9 @@
 from nameko.rpc import rpc
 
-import dependencies as dependencies
+import API.arasya.dependencies as dependencies
 
 class RentalService:
-    name = 'rental_service'
+    name = 'arasya_jakarta'
     database = dependencies.Database()
     
     # Car

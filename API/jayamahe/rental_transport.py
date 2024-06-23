@@ -1,9 +1,9 @@
 from nameko.rpc import rpc
 
-import dependencies as dependencies
+import API.jayamahe.dependencies as dependencies
 
 class RentalService:
-    name = 'rental_service'
+    name = 'jayamahe_easy_ride_jakarta'
     database = dependencies.Database()
     
     # Car
