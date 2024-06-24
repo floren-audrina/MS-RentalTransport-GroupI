@@ -10,7 +10,7 @@ class GatewayService:
     rental_rpc = RpcProxy('arasya_jakarta')
 
     # Car
-    @http('GET', '/car')
+    @http('GET', '1/car')
     def get_car(self, request):
         result = self.rental_rpc.get_car()
         if result:
@@ -18,7 +18,7 @@ class GatewayService:
         else:
             return 404, json.dumps({"error": "Car not found"})
         
-    @http('GET', '/car/<int:car_id>')
+    @http('GET', '1/car/<int:car_id>')
     def get_car_by_id(self, request, car_id):
         result = self.rental_rpc.get_car_by_id(car_id)
         if result:
@@ -27,7 +27,7 @@ class GatewayService:
             return 404, json.dumps({"error": "Car not found"})
         
     # resource example : http://localhost:8000/available_cars/2024-06-02/2024-06-09
-    @http('GET', '/available_cars/<string:tanggal_mulai>/<string:tanggal_selesai>')
+    @http('GET', '1/available_cars/<string:tanggal_mulai>/<string:tanggal_selesai>')
     def get_available_cars(self, request, tanggal_mulai, tanggal_selesai):
         # start = request.args.get('tanggal_mulai')
         # end = request.args.get('tanggal_selesai')
@@ -49,7 +49,7 @@ class GatewayService:
         else:
             return 404, json.dumps({"error": "No available cars"})
 
-    @http('POST', '/car_add')
+    @http('POST', '1/car_add')
     def add_car(self, request):
         req = request.get_data(as_text=True)
         try:
@@ -92,7 +92,7 @@ class GatewayService:
         responses = self.rental_rpc.add_car(car_list)
         return 200, json.dumps(responses)
     
-    @http('PUT', '/car_edit')
+    @http('PUT', '1/car_edit')
     def edit_car(self, request):
         req = request.get_data(as_text=True)
         try:
@@ -144,7 +144,7 @@ class GatewayService:
         return 200, json.dumps(responses)
 
 
-    @http('DELETE', '/car_delete/<int:car_id>')
+    @http('DELETE', '1/car_delete/<int:car_id>')
     def delete_car(self, request, car_id):
         if not isinstance(car_id, int) or car_id <= 0:
             return 400, json.dumps({"error": "Invalid car ID"})
@@ -157,7 +157,7 @@ class GatewayService:
             return 200, json.dumps({"message": "Car deleted successfully"})
 
     # Driver
-    @http('GET', '/driver')
+    @http('GET', '1/driver')
     def get_driver(self, request):
         result = self.rental_rpc.get_driver()
         if result:
@@ -165,7 +165,7 @@ class GatewayService:
         else:
             return 404, json.dumps({"error": "Driver not found"})
         
-    @http('GET', '/driver/<int:driver_id>')
+    @http('GET', '1/driver/<int:driver_id>')
     def get_driver_by_id(self, request, driver_id):
         result = self.rental_rpc.get_driver_by_id(driver_id)
         if result:
@@ -173,7 +173,7 @@ class GatewayService:
         else:
             return 404, json.dumps({"error": "Driver not found"})
     
-    @http('POST', '/driver_add')
+    @http('POST', '1/driver_add')
     def add_driver(self, request):
         req = request.get_data(as_text=True)
         try:
@@ -202,7 +202,7 @@ class GatewayService:
         responses = self.rental_rpc.add_driver(driver_list)
         return 200, json.dumps(responses)
     
-    @http('PUT', '/driver_edit')
+    @http('PUT', '1/driver_edit')
     def edit_driver(self, request):
         req = request.get_data(as_text=True)
         try:
@@ -242,7 +242,7 @@ class GatewayService:
         return 200, json.dumps(responses)
 
     
-    @http('DELETE', '/driver_delete/<int:driver_id>')
+    @http('DELETE', '1/driver_delete/<int:driver_id>')
     def delete_driver(self, request, driver_id):
         if not isinstance(driver_id, int) or driver_id <= 0:
             return 400, json.dumps({"error": "Invalid driver ID"})
@@ -255,7 +255,7 @@ class GatewayService:
             return 200, json.dumps({"message": "Driver deleted successfully"})
     
     # Booking
-    @http('GET', '/booking')
+    @http('GET', '1/booking')
     def get_booking(self, request):
         result = self.rental_rpc.get_booking()
         if result:
@@ -263,7 +263,7 @@ class GatewayService:
         else:
             return 404, json.dumps({"error": "Booking not found"})
         
-    @http('GET', '/booking/<int:booking_id>')
+    @http('GET', '1/booking/<int:booking_id>')
     def get_booking_by_id(self, request, booking_id):
         result = self.rental_rpc.get_booking_by_id(booking_id)
         if result:
@@ -271,7 +271,7 @@ class GatewayService:
         else:
             return 404, json.dumps({"error": "Booking not found"})
         
-    @http('POST', '/booking_add')
+    @http('POST', '1/booking_add')
     def add_booking(self, request):
         req = request.get_data(as_text=True)
         try:
@@ -311,7 +311,7 @@ class GatewayService:
         responses = self.rental_rpc.add_booking(booking_data)
         return 200, json.dumps(responses)
         
-    @http('PUT', '/booking_edit')
+    @http('PUT', '1/booking_edit')
     def edit_booking(self, request):
         req = request.get_data(as_text=True)
         try:
@@ -345,12 +345,12 @@ class GatewayService:
         return 200, json.dumps(responses)
 
 
-    @http('GET', '/booking/check/<int:booking_id>')
+    @http('GET', '1/booking/check/<int:booking_id>')
     def check_booking_is_done(self, request, booking_id):
         result = self.rental_rpc.check_booking_is_done(booking_id)
         return 200, json.dumps(result)
     
-    @http('DELETE', '/booking_delete/<int:booking_id>')
+    @http('DELETE', '1/booking_delete/<int:booking_id>')
     def delete_car(self, request, booking_id):
         if not isinstance(booking_id, int) or booking_id <= 0:
             return 400, json.dumps({"error": "Invalid car ID"})
@@ -364,7 +364,7 @@ class GatewayService:
 
 
     # Provider
-    @http('GET', '/provider')
+    @http('GET', '1/provider')
     def get_provider(self, request):
         result = self.rental_rpc.get_provider()
         if result:
@@ -372,7 +372,7 @@ class GatewayService:
         else:
             return 404, json.dumps({"error": "Provider not found"})
         
-    @http('PUT', '/provider_edit')
+    @http('PUT', '1/provider_edit')
     def edit_provider_http(self, request):
         req = request.get_data(as_text=True)
         try:
