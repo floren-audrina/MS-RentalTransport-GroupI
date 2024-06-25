@@ -2,7 +2,7 @@
 from setuptools import find_packages, setup
 
 setup(
-    name='nameko-example-transport-a',
+    name='nameko-examples-transport-a',
     version='0.0.1',
     description='Rental Car Transportations with Nameko',
     author='nameko',
