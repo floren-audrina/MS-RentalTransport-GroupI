@@ -21,7 +21,7 @@ services:
     restart: always
 
   transport-ak:
-    build: ./transport-ak
+    build: ./ada_kawan/transport/transport
     container_name: nameko-example-transport-ak
     depends_on:
       - rabbit
@@ -42,7 +42,7 @@ services:
       RABBIT_MANAGEMENT_PORT: "15672"
     
   gateway-ak:
-    build: ./gateway-ak
+    build: ./ada_kawan/gateway/gateway
     container_name: nameko-example-gateway-ak
     depends_on:
       - rabbit
@@ -58,7 +58,7 @@ services:
       RABBIT_MANAGEMENT_PORT: "15672"
 
   transport-a:
-    build: ./transport-a
+    build: ./arasya/transport/transport
     container_name: nameko-example-transport-a
     depends_on:
       - rabbit
@@ -79,7 +79,7 @@ services:
       RABBIT_MANAGEMENT_PORT: "15672"
     
   gateway-a:
-    build: ./gateway-a
+    build: ./arasya/gateway/gateway
     container_name: nameko-example-gateway-a
     depends_on:
       - rabbit
@@ -95,7 +95,7 @@ services:
       RABBIT_MANAGEMENT_PORT: "15672"
 
   transport-er:
-    build: ./transport-er
+    build: ./empat_roda/transport/transport
     container_name: nameko-example-transport-er
     depends_on:
       - rabbit
@@ -116,7 +116,7 @@ services:
       RABBIT_MANAGEMENT_PORT: "15672"
     
   gateway-er:
-    build: ./gateway-er
+    build: ./empat_roda/gateway/gateway
     container_name: nameko-example-gateway-er
     depends_on:
       - rabbit
@@ -132,7 +132,7 @@ services:
       RABBIT_MANAGEMENT_PORT: "15672"
 
   transport-j:
-    build: ./transport-j
+    build: ./jayamahe/transport/transport
     container_name: nameko-example-transport-j
     depends_on:
       - rabbit
@@ -153,7 +153,7 @@ services:
       RABBIT_MANAGEMENT_PORT: "15672"
     
   gateway-j:
-    build: ./gateway-j
+    build: ./jayamahe/gateway/gateway
     container_name: nameko-example-gateway-j
     depends_on:
       - rabbit
@@ -169,7 +169,7 @@ services:
       RABBIT_MANAGEMENT_PORT: "15672"
   
   transport-m:
-    build: ./transport-m
+    build: ./moovby/transport/transport
     container_name: nameko-example-transport-m
     depends_on:
       - rabbit
@@ -190,7 +190,7 @@ services:
       RABBIT_MANAGEMENT_PORT: "15672"
     
   gateway-m:
-    build: ./gateway-m
+    build: ./moovby/gateway/gateway
     container_name: nameko-example-gateway-m
     depends_on:
       - rabbit
@@ -206,7 +206,7 @@ services:
       RABBIT_MANAGEMENT_PORT: "15672"
 
   transport-p:
-    build: ./transport-p
+    build: ./puri/transport/transport
     container_name: nameko-example-transport-p
     depends_on:
       - rabbit
@@ -227,7 +227,7 @@ services:
       RABBIT_MANAGEMENT_PORT: "15672"
     
   gateway-p:
-    build: ./gateway-p
+    build: ./puri/gateway/gateway
     container_name: nameko-example-gateway-p
     depends_on:
       - rabbit
