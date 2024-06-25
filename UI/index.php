@@ -1,9 +1,7 @@
 <?php
-// Set input dari search
-$index = 4;
-$selectedprovider = $index; 
-$selectedCar = $index; 
-$withDriver = true; 
+// Set input dari search recommendation page
+$car_id = 4; // This will come from the previous page
+$provider_name = 'ak'; // This will also come from the previous page
 
 // Set input dari review
 $star = 8.9;
@@ -14,14 +12,39 @@ $detailReview = [
     'Kemudahan Proses Pengambilan & Pengembalian (8)'
 ];
 
+// Function to fetch data from an API endpoint
+function fetchData($url) {
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($ch);
+    curl_close($ch);
+    return json_decode($response, true);
+}
+
+// Define the mapping of provider names to ports
+$providerPorts = [
+    'ak' => '9001',
+    'a' => '9002',
+    'er' => '9003',
+    'j' => '9004',
+    'm' => '9005',
+    'p' => '9006'
+];
+
+// Get the port for the selected provider
+if (!array_key_exists($provider_name, $providerPorts)) {
+    echo "Unknown provider.";
+    exit;
+}
+
+$port = $providerPorts[$provider_name];
+
+// Base URL for the selected provider's microservice
+$baseUrl = 'http://localhost:' . $port;
 
 // Car
-$urlCar = 'http://localhost:8000/car/' . $selectedCar;
-$chCar = curl_init($urlCar);
-curl_setopt($chCar, CURLOPT_RETURNTRANSFER, true);
-$responseForCar = curl_exec($chCar);
-curl_close($chCar);
-$carData = json_decode($responseForCar, true);
+$urlCar = $baseUrl . '/car/' . $car_id;
+$carData = fetchData($urlCar);
 if ($carData === null) {
     echo "Failed to retrieve car data.";
     exit;
@@ -29,12 +52,8 @@ if ($carData === null) {
 $car = $carData['data'];
 
 // Provider
-$urlProvider = 'http://localhost:8000/provider';
-$chProvider = curl_init($urlProvider);
-curl_setopt($chProvider, CURLOPT_RETURNTRANSFER, true);
-$responseForProvider = curl_exec($chProvider);
-curl_close($chProvider);
-$providerData = json_decode($responseForProvider, true);
+$urlProvider = $baseUrl . '/provider';
+$providerData = fetchData($urlProvider);
 if ($providerData === null) {
     echo "Failed to retrieve provider data.";
     exit;
@@ -55,6 +74,11 @@ if($withDriver == true) {
     $driverPrice = 0;
 }
 $carImageUrl = $carData['image'];
+
+// Output the data as needed, for example:
+echo "Car: " . htmlspecialchars($car['name']) . "<br>";
+echo "Provider: " . htmlspecialchars($provider['name']) . "<br>";
+echo "Driver Price: Rp." . number_format($driverPrice, 0, ',', '.') . "<br>";
 ?>
 
 <!DOCTYPE html>

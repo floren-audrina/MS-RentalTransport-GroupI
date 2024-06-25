@@ -1,10 +1,13 @@
 HTMLCOV_DIR ?= htmlcov
 TAG ?= dev
-IMAGES := transport gateway
+TRANSPORTS := transport-ak transport-a transport-er transport-j transport-m transport-p
+GATEWAYS := gateway-ak gateway-a gateway-er gateway-j gateway-m gateway-p
+IMAGES := $(TRANSPORTS) $(GATEWAYS)
 
 install-dependencies:
-	pip install -U -e "transport/.[dev]"
-	pip install -U -e "gateway/.[dev]"
+	for service in $(TRANSPORTS) $(GATEWAYS); do \
+		pip install -U -e "$$service/.[dev]"; \
+	done
 
 # docker
 
