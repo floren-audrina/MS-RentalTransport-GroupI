@@ -1,6 +1,6 @@
 from nameko.rpc import rpc
 
-import transport.dependencies as dependencies
+import transport.transport.dependencies as dependencies
 
 class RentalService:
     name = 'moovby_driverless_jakarta'
