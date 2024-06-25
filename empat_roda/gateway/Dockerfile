@@ -50,7 +50,7 @@ FROM nameko-example-base as install
 COPY --from=builder /application/wheelhouse /wheelhouse
 
 # Install gateway service dependencies from wheel files
-RUN pip install --no-index -f /wheelhouse nameko_examples_gateway_er
+RUN pip install --no-index -f /wheelhouse nameko_examples_gateway
 
 # Stage 4: Final Service Image
 FROM base as service
