@@ -90,7 +90,7 @@ services:
       - "9001:8000"
     links:
       - "rabbit:nameko-example-rabbitmq"
-      - "mysql:nameko-example-mysql"
+      - "mysql:nameko-example-mysql-ak"
     environment:
       MYSQL_PASSWORD: "password"
       MYSQL_HOST: "nameko-example-mysql-ak"
@@ -127,7 +127,7 @@ services:
       - "9002:8000"
     links:
       - "rabbit:nameko-example-rabbitmq"
-      - "mysql:nameko-example-mysql"
+      - "mysql:nameko-example-mysql-a"
     environment:
       MYSQL_PASSWORD: "password"
       MYSQL_HOST: "nameko-example-mysql-a"
@@ -164,7 +164,7 @@ services:
       - "9003:8000"
     links:
       - "rabbit:nameko-example-rabbitmq"
-      - "mysql:nameko-example-mysql"
+      - "mysql:nameko-example-mysql-er"
     environment:
       MYSQL_PASSWORD: "password"
       MYSQL_HOST: "nameko-example-mysql-er"
@@ -201,7 +201,7 @@ services:
       - "9004:8000"
     links:
       - "rabbit:nameko-example-rabbitmq"
-      - "mysql:nameko-example-mysql"
+      - "mysql:nameko-example-mysql-j"
     environment:
       MYSQL_PASSWORD: "password"
       MYSQL_HOST: "nameko-example-mysql-j"
@@ -238,7 +238,7 @@ services:
       - "9005:8000"
     links:
       - "rabbit:nameko-example-rabbitmq"
-      - "mysql:nameko-example-mysql"
+      - "mysql:nameko-example-mysql-m"
     environment:
       MYSQL_PASSWORD: "password"
       MYSQL_HOST: "nameko-example-mysql-m"
@@ -275,7 +275,7 @@ services:
       - "9006:8000"
     links:
       - "rabbit:nameko-example-rabbitmq"
-      - "mysql:nameko-example-mysql"
+      - "mysql:nameko-example-mysql-p"
     environment:
       MYSQL_PASSWORD: "password"
       MYSQL_HOST: "nameko-example-mysql-p"
