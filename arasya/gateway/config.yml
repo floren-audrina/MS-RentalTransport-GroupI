@@ -1,3 +1,3 @@
 AMQP_URI: amqp://${RABBIT_USER:guest}:${RABBIT_PASSWORD:guest}@${RABBIT_HOST:localhost}:${RABBIT_PORT:5672}/
 
-MYSQL_URI_A: mysql://user:${MYSQL_PASSWORD:""}@${MYSQL_HOST:localhost}:${MYSQL_PORT:3308}/${MYSQL_DB:arasya_jakarta}
+MYSQL_URI_A: mysql://user:${MYSQL_PASSWORD:""}@mysql-a:3306/arasya_jakarta
