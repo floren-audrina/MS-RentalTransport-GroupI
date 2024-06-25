@@ -12,7 +12,7 @@ services:
     container_name: nameko-example-mysql-ak
     image: mysql:5.7
     ports:
-      - "3307:3306" # Exposing MySQL on different port for convenience
+      - "33013:3306" # Exposing MySQL on different port for convenience
     environment:
       MYSQL_DATABASE: "ada_kawan_jogja"
       MYSQL_ROOT_PASSWORD: "password"
