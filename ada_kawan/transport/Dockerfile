@@ -60,6 +60,13 @@ RUN mkdir -p /var/nameko/
 COPY config.yml /var/nameko/config.yml
 COPY run.sh /var/nameko/run.sh
 
+# Copy the application code, including dependencies
+COPY . /application
+
+# Set the working directory and PYTHONPATH
+WORKDIR /application/ada_kawan/transport
+ENV PYTHONPATH=/application/ada_kawan/transport
+
 # Set permissions for run.sh
 RUN chmod +x /var/nameko/run.sh
 
