@@ -37,13 +37,17 @@ COPY . /application
 ENV PIP_WHEEL_DIR=/application/wheelhouse
 ENV PIP_FIND_LINKS=/application/wheelhouse
 
+# Install dependencies
+COPY requirements.txt /application/requirements.txt
+RUN pip install -r /application/requirements.txt
+
 # Build the wheel
 WORKDIR /application
 RUN pip wheel .
 RUN ls /application/wheelhouse
 
 # Stage 3: Install Image
-FROM nameko-example-base as install
+FROM base as install
 
 COPY --from=builder /application/wheelhouse /wheelhouse
 
