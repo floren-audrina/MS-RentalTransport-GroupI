@@ -8,8 +8,8 @@ services:
       - "15674:15672" # Exposing RabbitMQ web management on different port for convenience
     restart: always
 
-  mysql:
-    container_name: nameko-example-mysql
+  mysql-ak:
+    container_name: nameko-example-mysql-ak
     image: mysql:5.7
     ports:
       - "3307:3306" # Exposing MySQL on different port for convenience
@@ -17,7 +17,67 @@ services:
       MYSQL_DATABASE: "ada_kawan_jogja"
       MYSQL_ROOT_PASSWORD: "password"
     volumes:
-     - ./mysql-init:/docker-entrypoint-initdb.d
+      - ./mysql-init:/docker-entrypoint-initdb.d
+    restart: always
+
+  mysql-a:
+    container_name: nameko-example-mysql-a
+    image: mysql:5.7
+    ports:
+      - "3308:3306" # Exposing MySQL on different port for convenience
+    environment:
+      MYSQL_DATABASE: "arasya_jakarta"
+      MYSQL_ROOT_PASSWORD: "password"
+    volumes:
+      - ./mysql-init:/docker-entrypoint-initdb.d
+    restart: always
+
+  mysql-er:
+    container_name: nameko-example-mysql-er
+    image: mysql:5.7
+    ports:
+      - "3309:3306" # Exposing MySQL on different port for convenience
+    environment:
+      MYSQL_DATABASE: "empat_roda_jogja"
+      MYSQL_ROOT_PASSWORD: "password"
+    volumes:
+      - ./mysql-init:/docker-entrypoint-initdb.d
+    restart: always
+
+  mysql-j:
+    container_name: nameko-example-mysql-j
+    image: mysql:5.7
+    ports:
+      - "3310:3306" # Exposing MySQL on different port for convenience
+    environment:
+      MYSQL_DATABASE: "jayamahe_easy_ride_jakarta"
+      MYSQL_ROOT_PASSWORD: "password"
+    volumes:
+      - ./mysql-init:/docker-entrypoint-initdb.d
+    restart: always
+
+  mysql-m:
+    container_name: nameko-example-mysql-m
+    image: mysql:5.7
+    ports:
+      - "3311:3306" # Exposing MySQL on different port for convenience
+    environment:
+      MYSQL_DATABASE: "moovby_driverless_jakarta"
+      MYSQL_ROOT_PASSWORD: "password"
+    volumes:
+      - ./mysql-init:/docker-entrypoint-initdb.d
+    restart: always
+
+  mysql-p:
+    container_name: nameko-example-mysql-p
+    image: mysql:5.7
+    ports:
+      - "3312:3306" # Exposing MySQL on different port for convenience
+    environment:
+      MYSQL_DATABASE: "puri_bali"
+      MYSQL_ROOT_PASSWORD: "password"
+    volumes:
+      - ./mysql-init:/docker-entrypoint-initdb.d
     restart: always
 
   transport-ak:
@@ -25,7 +85,7 @@ services:
     container_name: nameko-example-transport-ak
     depends_on:
       - rabbit
-      - mysql
+      - mysql-ak
     ports:
       - "9001:8000"
     links:
@@ -33,7 +93,7 @@ services:
       - "mysql:nameko-example-mysql"
     environment:
       MYSQL_PASSWORD: "password"
-      MYSQL_HOST: "mysql"
+      MYSQL_HOST: "nameko-example-mysql-ak"
       MYSQL_DB: "ada_kawan_jogja"
       RABBIT_HOST: "rabbit"
       RABBIT_PORT: "5672"
@@ -62,7 +122,7 @@ services:
     container_name: nameko-example-transport-a
     depends_on:
       - rabbit
-      - mysql
+      - mysql-a
     ports:
       - "9002:8000"
     links:
@@ -70,7 +130,7 @@ services:
       - "mysql:nameko-example-mysql"
     environment:
       MYSQL_PASSWORD: "password"
-      MYSQL_HOST: "mysql"
+      MYSQL_HOST: "nameko-example-mysql-a"
       MYSQL_DB: "arasya_jakarta"
       RABBIT_HOST: "rabbit"
       RABBIT_PORT: "5672"
@@ -99,7 +159,7 @@ services:
     container_name: nameko-example-transport-er
     depends_on:
       - rabbit
-      - mysql
+      - mysql-er
     ports:
       - "9003:8000"
     links:
@@ -107,7 +167,7 @@ services:
       - "mysql:nameko-example-mysql"
     environment:
       MYSQL_PASSWORD: "password"
-      MYSQL_HOST: "mysql"
+      MYSQL_HOST: "nameko-example-mysql-er"
       MYSQL_DB: "empat_roda_jogja"
       RABBIT_HOST: "rabbit"
       RABBIT_PORT: "5672"
@@ -136,7 +196,7 @@ services:
     container_name: nameko-example-transport-j
     depends_on:
       - rabbit
-      - mysql
+      - mysql-j
     ports:
       - "9004:8000"
     links:
@@ -144,7 +204,7 @@ services:
       - "mysql:nameko-example-mysql"
     environment:
       MYSQL_PASSWORD: "password"
-      MYSQL_HOST: "mysql"
+      MYSQL_HOST: "nameko-example-mysql-j"
       MYSQL_DB: "jayamahe_easy_ride_jakarta"
       RABBIT_HOST: "rabbit"
       RABBIT_PORT: "5672"
@@ -173,7 +233,7 @@ services:
     container_name: nameko-example-transport-m
     depends_on:
       - rabbit
-      - mysql
+      - mysql-m
     ports:
       - "9005:8000"
     links:
@@ -181,7 +241,7 @@ services:
       - "mysql:nameko-example-mysql"
     environment:
       MYSQL_PASSWORD: "password"
-      MYSQL_HOST: "mysql"
+      MYSQL_HOST: "nameko-example-mysql-m"
       MYSQL_DB: "moovby_driverless_jakarta"
       RABBIT_HOST: "rabbit"
       RABBIT_PORT: "5672"
@@ -210,7 +270,7 @@ services:
     container_name: nameko-example-transport-p
     depends_on:
       - rabbit
-      - mysql
+      - mysql-p
     ports:
       - "9006:8000"
     links:
@@ -218,7 +278,7 @@ services:
       - "mysql:nameko-example-mysql"
     environment:
       MYSQL_PASSWORD: "password"
-      MYSQL_HOST: "mysql"
+      MYSQL_HOST: "nameko-example-mysql-p"
       MYSQL_DB: "puri_bali"
       RABBIT_HOST: "rabbit"
       RABBIT_PORT: "5672"
