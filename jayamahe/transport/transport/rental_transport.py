@@ -1,6 +1,6 @@
 from nameko.rpc import rpc
 
-import dependencies as dependencies
+import transport.dependencies as dependencies
 
 class RentalService:
     name = 'jayamahe_easy_ride_jakarta'
