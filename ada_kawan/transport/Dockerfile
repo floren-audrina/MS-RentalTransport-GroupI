@@ -68,7 +68,6 @@ USER nameko
 
 # Set working directory
 WORKDIR /var/nameko/
-ENV PYTHONPATH=/application/ada_kawan/transport
 
 # Expose port for the service
 EXPOSE 8000
