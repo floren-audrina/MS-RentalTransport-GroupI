@@ -489,4 +489,6 @@ class Database(DependencyProvider):
             print ("Error while connecting to MySQL using Connection pool ", e)
 
     def get_dependency(self, worker_ctx):
+        if self.connection_pool is None:
+            raise Exception("Connection pool is not initialized")
         return DatabaseWrapper(self.connection_pool.get_connection())
