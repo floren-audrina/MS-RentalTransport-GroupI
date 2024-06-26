@@ -2,10 +2,10 @@
 
 services:
   rabbit:
-    container_name: nameko-example-rabbitmq
+    container_name: nameko-example-rabbitmq-ak
     image: rabbitmq:3.7-management
     ports:
-      - "15673:15672" # Exposing RabbitMQ web management on different port for convenience
+      - "15672:15672" # Exposing RabbitMQ web management on different port for convenience
     restart: always
 
   mysql-ak:
@@ -29,7 +29,7 @@ services:
     ports:
       - "9001:8000"
     links:
-      - "rabbit:nameko-example-rabbitmq"
+      - "rabbit:nameko-example-rabbitmq-ak"
       - "mysql-ak:nameko-example-mysql-ak"
     environment:
       MYSQL_PASSWORD: "admin"
