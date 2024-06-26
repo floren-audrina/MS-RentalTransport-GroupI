@@ -65,6 +65,7 @@ CREATE TABLE `car` (
   `car_seats` int(11) NOT NULL,
   `car_luggages` int(11) NOT NULL,
   `car_price` int(11) NOT NULL,
+  `car_image` varchar(255) NOT NULL,
   `driver_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -72,14 +73,12 @@ CREATE TABLE `car` (
 -- Dumping data for table `car`
 --
 
-INSERT INTO `car` (`car_id`, `car_brand`, `car_name`, `car_type`, `car_transmission`, `car_year`, `car_seats`, `car_luggages`, `car_price`, `driver_id`) VALUES
-(1, 'Toyota', 'Avanza', 'MPV', 'Automatic', 2022, 7, 2, 500000, 1),
-(2, 'Toyota', 'Innova Reborn', 'MPV', 'Automatic', 2021, 7, 4, 700000, 2),
-(3, 'Toyota', 'Innova Venturer', 'MPV', 'Automatic', 2020, 7, 4, 1000000, 3),
-(4, 'Suzuki', 'Ertiga', 'MPV', 'Automatic', 2019, 7, 2, 500000, 4),
-(5, 'Mitsubishi', 'Xpander', 'MPV', 'Automatic', 2017, 7, 3, 600000, 5),
-(6, 'Toyota', 'Rush', 'SUV', 'Automatic', 2024, 7, 3, 600000, 6),
-(7, 'Daihatsu', 'Terios', 'SUV', 'Automatic', 2018, 7, 3, 600000, 7);
+INSERT INTO `car` (`car_id`, `car_brand`, `car_name`, `car_type`, `car_transmission`, `car_year`, `car_seats`, `car_luggages`, `car_price`, `car_image`, `driver_id`) VALUES
+(1, 'Toyota', 'Avanza', 'MPV', 'Automatic', 2020, 7, 2, 290000, 'https://www.toyota.astra.co.id//sites/default/files/2023-09/1-avanza-purplish-silver.png', 1),
+(2, 'Honda', 'Jazz', 'Hatchback', 'Manual', 2019, 5, 1, 240000, 'https://asset.honda-indonesia.com/2020/04/27/exterior_2l_1__1588046929826.jpg', 2),
+(3, 'Suzuki', 'Ertiga', 'MPV', 'Automatic', 2021, 7, 3, 320000, 'https://www.suzukicdn.com/assets/static/img/variant/Brave_khaki.webp', 3),
+(4, 'Daihatsu', 'Xenia', 'MPV', 'Manual', 2018, 7, 2, 250000, 'https://salesdaihatsusoloraya.com/app/uploads/2022/06/all-new-xenia.jpg', 4),
+(5, 'Mitsubishi', 'Pajero', 'SUV', 'Automatic', 2022, 7, 3, 510000, 'https://assets.mitsubishi-motors.co.id/compress/products/colors/1627574998-pajero-4x2-greypng.webp', 5);
 
 -- --------------------------------------------------------
 
