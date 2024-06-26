@@ -277,7 +277,7 @@ services:
       - "rabbit:nameko-example-rabbitmq"
       - "mysql-p:nameko-example-mysql-p"
     environment:
-      MYSQL_PASSWORD: "password"
+      MYSQL_PASSWORD: "admin"
       MYSQL_HOST: "nameko-example-mysql-p"
       MYSQL_DB: "puri_bali"
       RABBIT_HOST: "rabbit"

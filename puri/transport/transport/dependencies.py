@@ -478,7 +478,7 @@ class Database(DependencyProvider):
                 pool_size=10,
                 pool_reset_session=True,
                 port='3306',
-                host='localhost',
+                host='nameko-example-mysql-p',
                 # database='rental_db',
                 # database='jayamahe_easy_ride_jakarta',
                 database='puri_bali',
