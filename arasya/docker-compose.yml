@@ -35,7 +35,7 @@ services:
       MYSQL_PASSWORD: "admin"
       MYSQL_HOST: "nameko-example-mysql-a"
       MYSQL_DB: "arasya_jakarta"
-      RABBIT_HOST: "rabbit"
+      RABBIT_HOST: "rabbit-a"
       RABBIT_PORT: "5672"
       RABBIT_USER: "guest"
       RABBIT_PASSWORD: "guest"
@@ -51,7 +51,7 @@ services:
     links:
       - "rabbit-a:nameko-example-rabbitmq-a"
     environment:
-      RABBIT_HOST: "rabbit"
+      RABBIT_HOST: "rabbit-a"
       RABBIT_PORT: "5672"
       RABBIT_USER: "guest"
       RABBIT_PASSWORD: "guest"
