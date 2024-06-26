@@ -2,6 +2,8 @@ from nameko.extensions import DependencyProvider
 
 import mysql.connector
 from mysql.connector import Error
+from mysql.connector import pooling
+from mysql.connector.pooling import MySQLConnectionPool
 from datetime import datetime
 
 import boto3
@@ -475,17 +477,26 @@ class Database(DependencyProvider):
                 pool_name="database_pool",
                 pool_size=10,
                 pool_reset_session=True,
-                host='localhost',
+                port='3306',
+                host='nameko-example-mysql-er',
                 # database='rental_db',
                 # database='jayamahe_easy_ride_jakarta',
                 # database='moovby_driverless_jakarta',
                 # database='arasya_jakarta',
                 database='empat_roda_jogja',
                 user='root',
-                password=''
+                password='admin'
             )
         except Error as e :
             print ("Error while connecting to MySQL using Connection pool ", e)
 
+    def stop(self):
+        # Called when the container is stopped
+        if self.connection_pool:
+            self.connection_pool.close()
+            print("MySQL Connection Pool closed")
+
     def get_dependency(self, worker_ctx):
+        if self.connection_pool is None:
+            raise Exception("Connection pool is not initialized")
         return DatabaseWrapper(self.connection_pool.get_connection())
