@@ -8,13 +8,13 @@ from datetime import datetime, date
 class GatewayService:
     name = 'gateway'
 
+    rental_rpc = RpcProxy('ada_kawan_jogja')
+
     header = {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "*",
         "Access-Control-Allow-Headers": "*"
     }
-
-    rental_rpc = RpcProxy('ada_kawan_jogja')
 
     # Car
     @http('GET', '/car')
