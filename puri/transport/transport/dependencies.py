@@ -6,11 +6,8 @@ from mysql.connector import pooling
 from mysql.connector.pooling import MySQLConnectionPool
 from datetime import datetime
 
-import boto3
-from botocore.exceptions import NoCredentialsError, PartialCredentialsError, ClientError, EndpointConnectionError
-
 MODEL_DATA = {
-    'car': ['car_id', 'car_brand', 'car_name', 'car_type', 'car_transmission', 'car_year', 'car_seats', 'car_luggages', 'car_price', 'driver_id'],
+    'car': ['car_id', 'car_brand', 'car_name', 'car_type', 'car_transmission', 'car_year', 'car_seats', 'car_luggages', 'car_price', 'car_image', 'driver_id'],
     'driver': ['driver_id', 'driver_name', 'driver_gender', 'driver_age', 'driver_phone'],
     'booking': ['booking_id', 'tanggal_mulai', 'tanggal_selesai', 'with_driver', 'total_harga', 'car_id']
 }
@@ -18,9 +15,6 @@ MODEL_DATA = {
 class DatabaseWrapper:
 
     connection = None
-    
-    BUCKET_NAME = 'car-image-soa'
-    s3 = boto3.client('s3')
 
     def __init__(self, connection):
         self.connection = connection
@@ -52,7 +46,12 @@ class DatabaseWrapper:
         return self.fetch_all('car')
     
     def get_car_by_id(self, car_id):
-        return self.fetch_by_id('car', 'car_id', car_id)
+        car = self.fetch_by_id('car', 'car_id', car_id)
+        if car:
+            return {
+                "data": car
+            }
+        return None
     
     def get_available_cars(self, start, end):
         try:
@@ -82,11 +81,11 @@ class DatabaseWrapper:
         else:
             return False
 
-    def add_car(self, car_brand, car_name, car_type, car_transmission, car_year, car_seats, car_luggages, car_price, driver_id):
+    def add_car(self, car_brand, car_name, car_type, car_transmission, car_year, car_seats, car_luggages, car_price, car_image, driver_id):
         cursor = self.connection.cursor(dictionary=True)
         try:
-            sql = "INSERT INTO car (car_brand, car_name, car_type, car_transmission, car_year, car_seats, car_luggages, car_price, driver_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
-            cursor.execute(sql, (car_brand, car_name, car_type, car_transmission, car_year, car_seats, car_luggages, car_price, driver_id))
+            sql = "INSERT INTO car (car_brand, car_name, car_type, car_transmission, car_year, car_seats, car_luggages, car_price, car_image, driver_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            cursor.execute(sql, (car_brand, car_name, car_type, car_transmission, car_year, car_seats, car_luggages, car_price, car_image, driver_id))
             self.connection.commit()
             cursor.close()
             return True
@@ -96,7 +95,7 @@ class DatabaseWrapper:
             cursor.close()
             return False
         
-    def edit_car(self, car_id, car_brand, car_name, car_type, car_transmission, car_year, car_seats, car_luggages, car_price, driver_id):
+    def edit_car(self, car_id, car_brand, car_name, car_type, car_transmission, car_year, car_seats, car_luggages, car_price, car_image, driver_id):
         cursor = self.connection.cursor(dictionary=True)
         try:
             updates = []
@@ -126,6 +125,9 @@ class DatabaseWrapper:
             if car_price != "-":
                 updates.append("car_price = %s")
                 params.append(car_price)
+            if car_image != "-":
+                updates.append("car_image = %s")
+                params.append(car_image)
             if driver_id != "-":
                 updates.append("driver_id = %s")
                 params.append(driver_id)
@@ -159,56 +161,6 @@ class DatabaseWrapper:
             self.connection.rollback()
             cursor.close()
             return False
-
-    # Car Image
-    def get_car_image_s3(self):
-        result = None
-        try:
-            response = self.s3.list_objects_v2(Bucket=self.BUCKET_NAME)
-            result = []
-            for obj in response['Contents']:
-                # print(obj)
-                key = obj['Key'].replace(" ", "+")
-                url = "https://{0}.s3.amazonaws.com/{1}".format(self.BUCKET_NAME, key)
-                result.append(url)
-        except NoCredentialsError:
-            result = {"error": "No AWS credentials were provided."}
-        except PartialCredentialsError:
-            result = {"error": "Incomplete AWS credentials provided."}
-        except EndpointConnectionError:
-            result = {"error": "Could not connect to the specified endpoint."}
-        except ClientError as e:
-            # Handle any client error thrown by boto3
-            result = {"error": str(e)}
-        except Exception as e:
-            # Catch any other exceptions
-            result = {"error": str(e)}
-        # print(result)
-        return result
-    
-    def get_car_image_s3_by_id(self, id):
-        result = None
-        try:
-            response = self.s3.list_objects_v2(Bucket=self.BUCKET_NAME)            
-            obj = response['Contents'][id-1]
-            # print(obj)
-            key = obj['Key'].replace(" ", "+")
-            url = "https://{0}.s3.amazonaws.com/{1}".format(self.BUCKET_NAME, key)
-            result = url
-        except NoCredentialsError:
-            result = {"error": "No AWS credentials were provided."}
-        except PartialCredentialsError:
-            result = {"error": "Incomplete AWS credentials provided."}
-        except EndpointConnectionError:
-            result = {"error": "Could not connect to the specified endpoint."}
-        except ClientError as e:
-            # Handle any client error thrown by boto3
-            result = {"error": str(e)}
-        except Exception as e:
-            # Catch any other exceptions
-            result = {"error": str(e)}
-        # print(result)
-        return result
 
     # Driver
     def get_driver(self):

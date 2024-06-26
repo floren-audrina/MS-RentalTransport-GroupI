@@ -75,6 +75,7 @@ class GatewayService:
         car_seats = car_list.get('car_seats', None)
         car_luggages = car_list.get('car_luggages', None)
         car_price = car_list.get('car_price', None)
+        car_image = car_list.get('car_image', None)
         driver_id = car_list.get('driver_id', None)
 
         # Check if any required field is None
@@ -82,8 +83,8 @@ class GatewayService:
             return 400, self.header, json.dumps({"error": "All car details fields are required and cannot be None"})
 
         # Validate types
-        if not all(isinstance(field, str) for field in [car_brand, car_name, car_type, car_transmission]):
-            return 400, self.header, json.dumps({"error": "car_brand, car_name, car_type, and car_transmission must be strings"})
+        if not all(isinstance(field, str) for field in [car_brand, car_name, car_type, car_transmission, car_image]):
+            return 400, self.header, json.dumps({"error": "car_brand, car_name, car_type, car_transmission, and car_image must be strings"})
 
         if not all(isinstance(field, int) for field in [car_year, car_seats, car_luggages]):
             return 400, self.header, json.dumps({"error": "car_year, car_seats, and car_luggages must be integers"})
@@ -119,6 +120,7 @@ class GatewayService:
         car_seats = car_details.get('car_seats', "-")
         car_luggages = car_details.get('car_luggages', "-")
         car_price = car_details.get('car_price', "-")
+        car_image = car_details.get('car_image', "-")
         driver_id = car_details.get('driver_id', "-")
 
         # Check if car_id is provided and valid
@@ -142,6 +144,8 @@ class GatewayService:
             return 400, self.header, json.dumps({"error": "car_luggages must be an integer"})
         if car_price != "-" and not isinstance(car_price, (int, float)):
             return 400, self.header, json.dumps({"error": "car_price must be a number"})
+        if car_image != "-" and not isinstance(car_image, str):
+            return 400, json.dumps({"error": "car_image must be a string"})
         if driver_id != "-" and not isinstance(driver_id, int):
             return 400, self.header, json.dumps({"error": "driver_id must be an integer"})
 
@@ -286,17 +290,17 @@ class GatewayService:
             return 400, self.header, json.dumps({"error": "Invalid JSON format"})
 
         if not isinstance(booking_data, dict):
-            return 400, self.header, json.dumps({"error": "Expected a list of booking data"})
+            return 400, self.header, json.dumps({"error": "Expected a dictionary of booking data"})
 
-        # for car_details in car_list:
-        tanggal_mulai = booking_data.get('tanggal_mulai', None)
-        tanggal_selesai = booking_data.get('tanggal_selesai', None)
-        with_driver = booking_data.get('with_driver', None)
-        total_harga = booking_data.get('total_harga', None)
-        car_id = booking_data.get('car_id', None)
+        # Extract fields
+        tanggal_mulai = booking_data.get('tanggal_mulai')
+        tanggal_selesai = booking_data.get('tanggal_selesai')
+        with_driver = booking_data.get('with_driver')
+        total_harga = booking_data.get('total_harga')
+        car_id = booking_data.get('car_id')
 
         # Check if any required field is None
-        if None in (tanggal_mulai,tanggal_selesai,with_driver,total_harga,car_id):
+        if None in (tanggal_mulai, tanggal_selesai, with_driver, total_harga, car_id):
             return 400, self.header, json.dumps({"error": "All booking data fields are required and cannot be None"})
 
         # Validate types
@@ -304,8 +308,12 @@ class GatewayService:
             return 400, self.header, json.dumps({"error": "with_driver, total_harga, and car_id must be integers"})
 
         if not all(isinstance(field, str) for field in [tanggal_mulai, tanggal_selesai]):
-            return 400, self.header, {"error": "tanggal_mulai and tanggal_selesai must be a string so it can be parsed to date"}
-        
+            return 400, self.header, json.dumps({"error": "tanggal_mulai and tanggal_selesai must be strings so they can be parsed to date"})
+
+        # Validate with_driver to be 0 or 1
+        if with_driver not in (0, 1):
+            return 400, self.header, json.dumps({"error": "with_driver must be either 0 or 1"})
+
         # Parse string dates into date objects
         try:
             tanggal_mulai = datetime.strptime(tanggal_mulai, "%Y-%m-%d").date()
@@ -316,6 +324,7 @@ class GatewayService:
         # All entries are valid, proceed with adding cars
         responses = self.rental_rpc.add_booking(booking_data)
         return 200, self.header, json.dumps(responses)
+
         
     @http('PUT', '/booking_edit')
     def edit_booking(self, request):

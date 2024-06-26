@@ -11,14 +11,14 @@ class RentalService:
     def get_car(self):
         result = {}
         result['data'] = self.database.get_car()
-        result['image']= self.database.get_car_image_s3()
         return result
     
     @rpc
     def get_car_by_id(self, car_id):
         result = {}
-        result['data'] = self.database.get_car_by_id(car_id)
-        result['image']= self.database.get_car_image_s3_by_id(car_id)
+        data = self.database.get_car_by_id(car_id)
+        result = data
+        result['image'] = data['data']['car_image']
         return result
     
     
@@ -39,8 +39,9 @@ class RentalService:
             car_seats = car_list.get('car_seats')
             car_luggages = car_list.get('car_luggages')
             car_price = car_list.get('car_price')
+            car_image = car_list.get('car_image')
             driver_id = car_list.get('driver_id')
-            self.database.add_car(car_brand,car_name,car_type,car_transmission,car_year,car_seats,car_luggages,car_price,driver_id)
+            self.database.add_car(car_brand,car_name,car_type,car_transmission,car_year,car_seats,car_luggages,car_price,car_image,driver_id)
             response.append({"status": "success", "message": "Car added successfully."})
         else:
             response.append({"status": "error", "message": f"Driver with ID {driver_id} does not exist."})
@@ -61,9 +62,10 @@ class RentalService:
             car_seats = car_details.get('car_seats')
             car_luggages = car_details.get('car_luggages')
             car_price = car_details.get('car_price')
+            car_image = car_details.get('car_image')
             driver_id = car_details.get('driver_id')
             
-            if self.database.edit_car(car_id, car_brand, car_name, car_type, car_transmission, car_year, car_seats, car_luggages, car_price, driver_id):
+            if self.database.edit_car(car_id, car_brand, car_name, car_type, car_transmission, car_year, car_seats, car_luggages, car_price, car_image, driver_id):
                 response.append({"status": "success", "message": "Car updated successfully."})
             else:
                 response.append({"status": "error", "message": "Failed to update car details."})
