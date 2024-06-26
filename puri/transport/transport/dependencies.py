@@ -477,7 +477,7 @@ class Database(DependencyProvider):
                 pool_name="database_pool",
                 pool_size=10,
                 pool_reset_session=True,
-                port='3306',
+                port='3308',
                 host='localhost',
                 # database='rental_db',
                 # database='jayamahe_easy_ride_jakarta',
