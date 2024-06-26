@@ -1,7 +1,8 @@
 <?php
 // Set input dari search recommendation page
-$car_id = 4; // This will come from the previous page
+$car_id = 5; // This will come from the previous page
 $provider_name = 'ak'; // This will also come from the previous page
+$withDriver = true;
 
 // Set input dari review
 $star = 8.9;
@@ -23,12 +24,12 @@ function fetchData($url) {
 
 // Define the mapping of provider names to ports
 $providerPorts = [
-    'ak' => '9001',
-    'a' => '9002',
-    'er' => '9003',
-    'j' => '9004',
-    'm' => '9005',
-    'p' => '9006'
+    'ak' => '8001',
+    'a' => '8002',
+    'er' => '8003',
+    'j' => '8004',
+    'm' => '8005',
+    'p' => '8006'
 ];
 
 // Get the port for the selected provider
@@ -40,7 +41,8 @@ if (!array_key_exists($provider_name, $providerPorts)) {
 $port = $providerPorts[$provider_name];
 
 // Base URL for the selected provider's microservice
-$baseUrl = 'http://localhost:' . $port;
+$ip = '3.228.174.120';
+$baseUrl = 'http://' . $ip . ':' . $port;
 
 // Car
 $urlCar = $baseUrl . '/car/' . $car_id;
@@ -58,7 +60,7 @@ if ($providerData === null) {
     echo "Failed to retrieve provider data.";
     exit;
 }
-$provider = $providerData[0];
+$provider = $providerData[1];
 
 // Untuk Kebijakan Rental
 $policy = $provider['policy'];
@@ -76,9 +78,9 @@ if($withDriver == true) {
 $carImageUrl = $carData['image'];
 
 // Output the data as needed, for example:
-echo "Car: " . htmlspecialchars($car['name']) . "<br>";
-echo "Provider: " . htmlspecialchars($provider['name']) . "<br>";
-echo "Driver Price: Rp." . number_format($driverPrice, 0, ',', '.') . "<br>";
+// echo "Car: " . htmlspecialchars($car['name']) . "<br>";
+// echo "Provider: " . htmlspecialchars($provider['name']) . "<br>";
+// echo "Driver Price: Rp." . number_format($driverPrice, 0, ',', '.') . "<br>";
 ?>
 
 <!DOCTYPE html>
