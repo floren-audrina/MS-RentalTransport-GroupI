@@ -2,6 +2,7 @@ from nameko.extensions import DependencyProvider
 
 import mysql.connector
 from mysql.connector import Error
+from mysql.connector import pooling
 from datetime import datetime
 
 import boto3
