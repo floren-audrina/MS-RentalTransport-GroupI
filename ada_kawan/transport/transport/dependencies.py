@@ -70,16 +70,18 @@ class DatabaseWrapper:
         return available_cars
     
     def get_price(self, id):
-        cursor = self.connection.cursor(dictionary=True)
+        cursor = self.connection.cursor()
         sql = "SELECT car_price FROM car WHERE car_id = {}".format(id)
         cursor.execute(sql)
-        result = cursor.fetchone()  # Use fetchall to get all rows
-        cursor.close()
+        result = cursor.fetchone()
 
         if result:
-            return result
+            price = result[0] 
+            cursor.close()
+            return price 
         else:
-            return False
+            cursor.close()
+            return None
     
     def check_carID(self, id):
         cursor = self.connection.cursor(dictionary=True)
