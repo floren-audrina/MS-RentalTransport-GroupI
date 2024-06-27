@@ -2,6 +2,7 @@ from nameko.rpc import rpc
 
 from transport import dependencies
 from datetime import datetime, date
+from dateutil.relativedelta import relativedelta
 
 class RentalService:
     name = 'ada_kawan_jogja'
@@ -155,17 +156,19 @@ class RentalService:
             tanggal_selesai = booking_data.get('tanggal_selesai')
             tanggal_mulai = datetime.strptime(tanggal_mulai, "%Y-%m-%d").date()
             tanggal_selesai = datetime.strptime(tanggal_selesai, "%Y-%m-%d").date()
+            difference = relativedelta(tanggal_selesai, tanggal_mulai)
+            days_difference = difference.days
 
             with_driver = booking_data.get('with_driver')
             # total_harga = booking_data.get('total_harga')
             car_id = booking_data.get('car_id')
             if (self.database.check_carID(car_id)) :
                 total_harga = self.database.get_price(car_id)
-                durasi = (tanggal_selesai - tanggal_mulai).days
+                # durasi = (tanggal_selesai - tanggal_mulai).days
                 if (with_driver == 1) :
-                    total_harga = (total_harga*durasi) + add
+                    total_harga = (total_harga*days_difference) + add
                 else :
-                    total_harga = total_harga*durasi
+                    total_harga = total_harga*days_difference
             self.database.add_booking(tanggal_mulai,tanggal_selesai,with_driver,total_harga,car_id)
             response.append({"status": "success", "message": "Booking added successfully."})
         else:
