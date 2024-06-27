@@ -1,6 +1,7 @@
 from nameko.rpc import rpc
 
 from transport import dependencies
+from datetime import datetime, date
 
 class RentalService:
     name = 'ada_kawan_jogja'
@@ -152,6 +153,9 @@ class RentalService:
         if self.database.check_carID(car_id):
             tanggal_mulai = booking_data.get('tanggal_mulai')
             tanggal_selesai = booking_data.get('tanggal_selesai')
+            tanggal_mulai = datetime.strptime(tanggal_mulai, "%Y-%m-%d").date()
+            tanggal_selesai = datetime.strptime(tanggal_selesai, "%Y-%m-%d").date()
+
             with_driver = booking_data.get('with_driver')
             # total_harga = booking_data.get('total_harga')
             car_id = booking_data.get('car_id')
