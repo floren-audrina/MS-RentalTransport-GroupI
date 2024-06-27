@@ -21,6 +21,7 @@ class RentalService:
         data = self.database.get_car_by_id(car_id)
         result = data
         result['image'] = data['data']['car_image']
+        result['data'].pop('car_image', None)
         return result
     
     
