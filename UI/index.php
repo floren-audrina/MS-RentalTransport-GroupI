@@ -47,6 +47,7 @@ $baseUrl = 'http://' . $ip . ':' . $port;
 // Car
 $urlCar = $baseUrl . '/car/' . $car_id;
 $carData = fetchData($urlCar);
+// var_dump($urlCar);
 if ($carData === null) {
     echo "Failed to retrieve car data.";
     exit;
@@ -60,7 +61,7 @@ if ($providerData === null) {
     echo "Failed to retrieve provider data.";
     exit;
 }
-$provider = $providerData[1];
+$provider = $providerData[0];
 
 // Untuk Kebijakan Rental
 $policy = $provider['policy'];
