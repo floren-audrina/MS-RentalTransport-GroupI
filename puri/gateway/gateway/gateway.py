@@ -340,7 +340,7 @@ class GatewayService:
         # Extract booking details
         booking_id = booking_details.get('booking_id', None)
         start_date = booking_details.get('tanggal_mulai', "-")
-        end_date = booking_details.get('end_date', "-")
+        end_date = booking_details.get('tanggal_selesai', "-")
         with_driver = booking_details.get('with_driver', "-")
         total_price = booking_details.get('total_harga', "-")
         car_id = booking_details.get('car_id', "-")
@@ -359,24 +359,22 @@ class GatewayService:
         responses = self.rental_rpc.edit_booking(booking_details)
         return 200, self.header, json.dumps(responses)
 
-
     @http('GET', '/booking/check/<int:booking_id>')
     def check_booking_is_done(self, request, booking_id):
         result = self.rental_rpc.check_booking_is_done(booking_id)
         return 200,self.header, json.dumps(result)
     
     @http('DELETE', '/booking_delete/<int:booking_id>')
-    def delete_car(self, request, booking_id):
+    def delete_booking(self, request, booking_id):
         if not isinstance(booking_id, int) or booking_id <= 0:
-            return 400, self.header, json.dumps({"error": "Invalid car ID"})
+            return 400, self.header, json.dumps({"error": "Invalid booking ID"})
         
-        result = self.rental_rpc.delete_car(booking_id)
+        result = self.rental_rpc.delete_booking(booking_id)
     
         if result.get("status") == "error":
             return 404, self.header, json.dumps({"error": result.get("message")})
         else:
             return 200,self.header, json.dumps({"message": "Booking deleted successfully"})
-
 
     # Provider
     @http('GET', '/provider')
@@ -388,7 +386,7 @@ class GatewayService:
             return 404, self.header, json.dumps({"error": "Provider not found"})
         
     @http('PUT', '/provider_edit')
-    def edit_provider_http(self, request):
+    def edit_provider(self, request):
         req = request.get_data(as_text=True)
         try:
             provider_details = json.loads(req)
@@ -412,7 +410,7 @@ class GatewayService:
             return 400, self.header, json.dumps({"error": "provider_name, provider_address, provider_city, policy, information, and map must be strings"})
 
         # If all validated, call the edit_provider method
-        success = self.edit_provider(provider_name, provider_address, provider_city, provider_num, policy, information, map)
+        success = self.rental_rpc.edit_provider(provider_name, provider_address, provider_city, provider_num, policy, information, map)
         if success:
             return 200,self.header, json.dumps({"message": "Provider updated successfully"})
         else:

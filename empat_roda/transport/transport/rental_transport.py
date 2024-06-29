@@ -207,10 +207,10 @@ class RentalService:
     @rpc
     def delete_booking(self, booking_id):
         if self.database.check_bookingID(booking_id):
-            self.database.delete_car(booking_id)
-            return {"status": "success", "message": f"Car with ID {booking_id} has been deleted."}
+            self.database.delete_booking(booking_id)
+            return {"status": "success", "message": f"Booking with ID {booking_id} has been deleted."}
         else:
-            return {"status": "error", "message": f"Car with ID {booking_id} does not exist."}
+            return {"status": "error", "message": f"Booking with ID {booking_id} does not exist."}
     
     
     # Provider

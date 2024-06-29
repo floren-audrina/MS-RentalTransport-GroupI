@@ -367,11 +367,11 @@ class GatewayService:
         return 200,self.header, json.dumps(result)
     
     @http('DELETE', '/booking_delete/<int:booking_id>')
-    def delete_car(self, request, booking_id):
+    def delete_booking(self, request, booking_id):
         if not isinstance(booking_id, int) or booking_id <= 0:
-            return 400, self.header, json.dumps({"error": "Invalid car ID"})
+            return 400, self.header, json.dumps({"error": "Invalid booking ID"})
         
-        result = self.rental_rpc.delete_car(booking_id)
+        result = self.rental_rpc.delete_booking(booking_id)
     
         if result.get("status") == "error":
             return 404, self.header, json.dumps({"error": result.get("message")})
