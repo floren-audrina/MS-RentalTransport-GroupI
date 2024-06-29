@@ -341,7 +341,7 @@ class GatewayService:
         # Extract booking details
         booking_id = booking_details.get('booking_id', None)
         start_date = booking_details.get('tanggal_mulai', "-")
-        end_date = booking_details.get('end_date', "-")
+        end_date = booking_details.get('tanggal_selesai', "-")
         with_driver = booking_details.get('with_driver', "-")
         total_price = booking_details.get('total_harga', "-")
         car_id = booking_details.get('car_id', "-")
@@ -389,7 +389,7 @@ class GatewayService:
             return 404, self.header, json.dumps({"error": "Provider not found"})
         
     @http('PUT', '/provider_edit')
-    def edit_provider_http(self, request):
+    def edit_provider(self, request):
         req = request.get_data(as_text=True)
         try:
             provider_details = json.loads(req)
@@ -413,7 +413,7 @@ class GatewayService:
             return 400, self.header, json.dumps({"error": "provider_name, provider_address, provider_city, policy, information, and map must be strings"})
 
         # If all validated, call the edit_provider method
-        success = self.edit_provider(provider_name, provider_address, provider_city, provider_num, policy, information, map)
+        success = self.rental_rpc.edit_provider(provider_name, provider_address, provider_city, provider_num, policy, information, map)
         if success:
             return 200,self.header, json.dumps({"message": "Provider updated successfully"})
         else:
