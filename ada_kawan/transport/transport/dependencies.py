@@ -272,10 +272,11 @@ class DatabaseWrapper:
         return self.fetch_by_id('booking', 'booking_id', booking_id)
     
     def check_bookingID(self, booking_id):
-        if self.get_booking_by_id(booking_id) :
+        if self.get_booking_by_id(booking_id) is not None:
             return True
-        else :
+        else:
             return False
+
     
     def add_booking(self, tanggal_mulai, tanggal_selesai, with_driver, total_harga, car_id):
         cursor = self.connection.cursor(dictionary=True)
