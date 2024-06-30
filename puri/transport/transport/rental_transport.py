@@ -219,16 +219,8 @@ class RentalService:
         return self.database.get_provider()
     
     @rpc
-    def edit_provider(self, provider_details):
+    def edit_provider(self, provider_name, provider_address, provider_city, provider_num, policy, information, map_url):
         response = []
-
-        provider_name = provider_details.get('provider_name')
-        provider_address = provider_details.get('provider_address')
-        provider_city = provider_details.get('provider_city')
-        provider_num = provider_details.get('provider_num')
-        policy = provider_details.get('policy')
-        information = provider_details.get('information')
-        map_url = provider_details.get('map')
 
         if self.database.edit_provider(provider_name, provider_address, provider_city, provider_num, policy, information, map_url):
             response.append({"status": "success", "message": "Provider updated successfully."})
